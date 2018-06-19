@@ -1,0 +1,9 @@
+#!/bin/bash
+# sets back display var. 
+#if [ ! -z ${SSH_CONNECTION+x} ]; then
+if [ -z $STY ]; then
+  export DISPLAY=$(cat $HOME/.display.env) 
+fi
+
+#depends on before this script runs in ..bash_login the following
+#echo $DISPLAY > $HOME/.display.env  

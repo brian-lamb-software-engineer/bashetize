@@ -1,0 +1,81 @@
+##
+# bash_colour_<hostname>
+# A bash terminal color changer. 
+#
+# Set your colors to server vars first, adjust these once for any given server
+# see file etc/.bash_colours as reference
+#For a starting point, you can use the following as a guideline, customizing from there
+#PERSONAL=Green
+#DEV=Green
+#STAGE=Yellow
+#PRE-PROD=Red
+#PROD=Red
+
+
+#########################
+# Adjust your colors here
+MY_UNDER="${UGreen}"
+MY_BASE="${IGreen}"
+MY_AT="${BIGreen}"
+MY_BOLD="${BIGreen}"
+MY_HOST="${BIGreen}"
+#########################
+
+
+##
+# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
+#
+# terminal (non screen colors)
+TERM_PROMPT="${MY_UNDER}"
+# screen colors
+LOC="${MY_BASE} \w"
+BRANCH='$(__git_ps1 " [%s]")'
+PROMPT="${MY_BASE}\$" 
+TEXT="${White} "
+#following two kept here for ease of adjustment (instead of in conditional)
+TERM_BASE="${MY_UNDER}\u${MY_AT}@${MY_HOST}\h"
+SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_BOLD}\h"
+
+
+###
+# No need to adjust anything below normally. 
+#
+# Adjust PS1 below for one of two scenarios below. (Choose A if your not 
+#   sure, choose B for a more proper setup, if your using screen on it) 
+#
+# For a jump host that you use screen in, the bold is the nicer output, hence why 
+# it is used on the screen (else) portion of the following condntion. 
+# This helps you notice if you've actually made your last screen yet, by being
+# underlined still. 
+#
+# To adjust correctly; If this is your end destination then you only need your
+# nice color.  i.e. comment the conditional below in favor of just having
+# one PS1 entry everytime you land here, no matter screened or not.
+#
+# Choose an option below, comment out the other Option's usage altogether.
+#
+# a) Option A, Always use best color
+# no editing needed
+# PS1=$SCREEN_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
+
+# b) Option B, Use the non screen color firs,t then when screened use the screen color. 
+# Always run 'screen -RA', or screen-RAD if your wanting to detach it first incase you
+# have switched consoles. The -R switch is key to keeping any alignment you may have
+# had on the screen splits, through a jump, prior to disconnect, when using split 
+# vertical screens 
+#
+if [ -z $STY ]
+then
+    # Default tty prompt
+    # no color editing needed, instead edit the VARS that represent the colors, at top 
+    #   of this file. 
+    PS1=$TERM_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
+    # an alternate PS1 for this scenario
+    # PS1="{$TERM_PROMPT}{$BRANCH}$White \$"
+else
+    #screen prompt
+    # no color editing needed, instead edit the VARS that represent the colors, at top 
+    #   of this file. 
+   PS1=$SCREEN_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
+fi
+

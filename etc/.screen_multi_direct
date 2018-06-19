@@ -1,0 +1,11 @@
+#
+#for screen
+#use this when you want to run it directly, or have an alias point to, e.g.
+
+# screen -t .screen_multi_direct
+#
+#
+# source our two needed files, and were off
+source ~/etc/.screen_layout
+source ~/etc/.screen_multi
+

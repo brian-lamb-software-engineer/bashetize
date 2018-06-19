@@ -1,0 +1,12 @@
+##
+# screen script
+# author blamb
+#
+# .screenrc
+
+# pane 1 - local bash 
+	screen -t	bashed 1
+#   screen -d -m -S myshell -t tab0 
+#   shell -$SHELL
+#caption string "%{kk}XXXXXXX"
+

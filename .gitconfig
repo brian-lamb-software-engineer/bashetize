@@ -1,0 +1,52 @@
+[core]
+	autocrlf = input
+    fileMode = false
+    ignorecase = true
+    #status = auto
+    #diff = auto
+    #branch = auto
+    #grep = auto
+[color]
+	ui = true
+[color "branch"]
+    #current = green
+    #michael wales style
+    current = yellow reverse
+    local = yellow
+    remote = green
+    plain = normal
+[color "diff"]
+    meta = yellow bold
+    #frag = cyan
+    #frag = magenta bold
+    frag = blue
+    #old = red
+    old = red bold
+    #new = green
+    new = green bold
+    plain = normal
+    commit = yellow
+    whitespace = normal red
+[color "grep"]
+    match = normal
+[color "interactive"]
+    prompt = normal
+    header = normal
+    help = normal
+    error = normal
+[color "status"]
+    #added = red
+    added = yellow
+    #header = white normal dim
+    #header =white
+	changed = blue normal bold
+    updated = green
+    untracked = red
+    nobranch = red
+[credential]
+    helper = store
+[http]
+	sslverify = false
+[user]
+	name = Your Name Here
+	email = youremail@domain.com
