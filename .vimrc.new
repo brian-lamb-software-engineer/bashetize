@@ -1,0 +1,68 @@
+syntax on
+syntax enable
+colorscheme badwolf		  "awesome colorscheme
+filetype on
+
+set tabstop=2
+set softtabstop=4		    "spaces in tab when editing
+set expandtab				    "tabs are spaces
+set wrap
+set linebreak
+set nolist              "list disables linebreak
+
+set number						  " show line numbers
+set showcmd						  " show command in bottom bar
+set cursorline				  " highlight current line
+
+filetype indent on		  "load filetype-specific indent files
+set wildmenu					  " visual autocompletet for command menu
+set lazyredraw				  " redraw only when we need to
+set showmatch					  " highlight matching paren
+
+set incsearch					  " set as chars are typed
+set hlsearch					  " highlight matches
+
+
+"turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>    
+
+set foldenable				  " enable folding
+set foldlevelstart=10	  " open most folds by default
+set foldnestmax=10		  " 10 nested max
+
+" space open closes folds
+nnoremap <space> za  
+set foldmethod=indent   "fold based in indent level
+
+" automatically close with a session instead.  Then reopen vim with vim -S to leverage this
+nnoremap <leader>s :mksession<CR>	     
+
+" open ag.vim silver searcher commmand line tool, searches source code in a project, this adds to vim without leaving (here mapped to ,a)
+nnoremap <leader>a :Ag    
+
+set nocp                " fix cursor (prereq; need .vimrc in path of $HOME)
+
+"
+" BEGIN OLD CHANGES FROM ENG03
+"
+"set noeb vb t_vb=
+"set shiftwidth=4
+
+" deletekey problems?
+":fixdel
+
+" make backspace work like most other apps
+"set backspace=2
+
+" Alternatively
+" set backspace=indent,eol,start
+
+
+" Other ideas
+
+" If backspace doesn't work properly in insert mode, e.g. inserting '^?', try putting this your .bashrc:
+" stty erase '^?'
+"
+" END OLD CHANGES FROM ENG03
+"
+

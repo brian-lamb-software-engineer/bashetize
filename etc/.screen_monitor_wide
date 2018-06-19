@@ -1,0 +1,43 @@
+##
+# .screen_monitor_wide
+# for split monitoring of ip traffic
+# screen -c ~/bin/.screen_monitor_wide
+# C-a d to detach
+# then screen -RA to reattach with splits correctly
+#
+#@TODO add splits
+#   -netstat -anp | grep anything
+#   -consider additionally -tulpn
+
+## SCREEN panes
+  screen -f -a -A  -t iptrafi 1 nice sudo nice -10 iptraf -i eth0
+  split
+  focus
+  screen -f -a -A -t nload 2 nice -10 nload
+  #resize 28
+  focus down
+	split -v
+  focus right
+	screen -f -a -A -t iftop 3 sudo nice -10 iftop
+  #! /usr/bin/clear
+  #new 
+  focus up
+  focus up
+
+  #note, enabling the 4th screen below, breaks this on 4x3 resolution and or smaller resolutions below 1680w it appears. 
+  # So, if you dont see two blue screens on the top two quarters, then just comment out the below split-v section, and its 4th screen
+  #To not complicate this, were back on top, lets do screen 4 now, but put it on the top right of the top pane
+  split -v
+  focus
+  screen -f -t iptrafd 4 sudo nice -10 iptraf -d eth0 
+
+  #attempt to select our focus now
+  focus left
+
+# notes
+#-a -A this helps the windows terminal flow into its pane
+# -f was intended to help flow, seems also necessary
+# -t is a title
+# the number is the title number
+# running with niceness -10 when applicable, or necessary
+# sudo nice elevates, nice sudo doesnt, we need elevated or sudo wouldnt be there.

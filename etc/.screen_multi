@@ -1,0 +1,93 @@
+##
+# screen script
+# .screen_multi
+# for generic multi split screen use
+# screen -c ~/etc/.screen_monitor
+# C-a d to detach
+# then screen -RA to reattach with splits correctly
+#
+
+#add session
+#  screen -d -m -S myshell -t tab0 
+
+## WORKS UNCOMMENT HERE
+## pane 1 - local bash 
+#	split
+#	#shell -$SHELL
+#	focus down
+#
+## pane 2 - utility
+#	screen -t utility 2
+#	resize 28
+##	shell -$SHELL
+#	focus up
+#
+## pane 1 
+#	screen -t	bashed 1
+#	exec /usr/bin/clear
+## END WORKS
+
+#caption string "%{kk}XXXXXXX"
+
+
+## Other stuff
+# 1 a local bash 
+	screen -t	jump1	1	bash
+sessinoname $USER
+	
+# 2 ssh to dev4
+	split -v
+ focus 
+	select 2
+	resize -6	
+	screen -t	jump1	2	ssh dev4
+	caption string "%{kk}XXXXXXX"
+
+# 3 bashed
+	focus 
+	select 1 
+	split
+	focus 
+	select 3	
+	screen -t	bashed 3	bash
+#exec ssh dev4
+	caption string "%{kk}XXXXXXX"
+
+# 4 bashedup
+	split
+	focus down
+	screen -t	bashedup 4 bash
+	caption string "%{kk}XXXXXXX"
+
+# 5 compass
+	split
+	focus down
+	resize -14
+#	screen -t	compass 5 bash
+	screen -t	compass 5 bash
+# leave caption commented till resize works	
+caption string "%{kk}XXXXXXX"
+
+#focus up 
+
+
+## 5mysql
+#	exec mysql -p
+# screen -t	mysql	5	mysql
+
+## 6php
+# screen -t	php.ini	6 vim /etc/php/php.ini
+# select php.ini
+# chdir /etc/php
+# exec vim php.ini
+
+# screen -t	httpd	6	bash
+# select	httpd
+# echo -n restarting htttpd
+# exec sudo systemctl restart httpd
+
+# layout save def
+
+# source .screen_layout
+# layout save def
+

@@ -1,0 +1,24 @@
+# .bash_profile extended remote profile configs for multi server use
+# Note, since profile, this loads only once, for login shells only, to prepare
+# for the command prompt
+#
+# load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
+. ~/etc/.bash-colours
+. ~/etc/.bash-my-colors
+. ~/etc/.git-prompt.sh
+
+# PATH extensions
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH
+
+# ~/.dircolors/themefile
+if [ -f ~/.dircolors/dircolors.256dark ]; then
+    eval $(gdircolors ~/.dircolors/dircolors.256dark)
+fi
+
+#TERMINAL COLOR (enable if TERM isnt defined on your system)
+#if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+#    export TERM='xterm-256color'
+#else
+#    export TERM='xterm-color'
+#fi

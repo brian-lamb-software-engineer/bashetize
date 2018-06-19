@@ -1,0 +1,114 @@
+##
+# screen script 
+# .screen_layout
+#
+# Author blamb
+#
+#treat screen as bash shell, so that correct colors load(rhel7)
+defshell -bash
+# VERT SPLIT ENABLING - NOTES
+# WHEN using splits, to AVOID LOSING your custom splits and pane sizing on detachment, it is necessary to 
+# follow ALL of the following instructions in this header block, adjusting to your needs:
+#
+# BE SURE TO LAUNCH an INTIAL SCREEN as a NEST, before connecting to the location that contains your custom .screenrc 
+
+# deprecated in favor of screen_layout
+#below stuff was only necessary until upgraded to >=4.2
+#
+# NESTED SCREEN is defined as any host/box that you can run a blank screen command on before connecting to your destination Screen location. 
+# The benefit of this is so that you can safely exit this screen, without exiting the one inside(and is abs. necessary).
+# ADD THE FOLLOWING to your alternate nested-host's .screenrc.  
+# Its important that escape is defined first, where "" is the default escape key
+# disable detach on alternate machine 
+#escape ""
+# bindkey ^ad detach
+# Use 'screen' on your nest box, then ssh into your host that has your nice custom screenrc file with the splits and resizes.
+#
+# end deprecated
+
+# Escaping
+#
+# Set escape to backtick only
+# escape `~
+##escape ""
+#
+##below one for nest (ctrl-space), one for nested (ctrl-])
+## escape ^@^@ 
+## escape ^]^]
+#
+#bindkey ^ad detach
+
+startup_message off
+vbell off
+nonblock on								# Don't block command output if the terminal stops responding, e.g. if the ssh connection times out
+
+#shelltitle '$ | "my custom screen_layout' # search | name for dynamic window titles
+#term pterm								# Putty terminal type is called "putty" or "pterm"
+		#backtick 1 5 5 true	# Program the backtick cmd with a numerical id, for substitution of %` string esc (seconds, autorefresh, substitution)
+altscreen on					# Allow editors etc. to restore display on exit rather than leaving existing text in place
+
+##
+# Monitoring windows
+
+		#defmonitor
+		#activity "%c activity -> %n%f %t"
+		#caption always "%{= Wk}%-w%{= Bw}%n %t%{-}%+w %-="
+
+##
+# STATUS SETTINGS
+
+		# hardware status
+		# if set to off, mesages oerlaid in reverse vid
+		#putty should support the hard ststus line, lets not take up another line in video to display another
+		#hardstatus alwayslastline
+		#hardstatus lastline string="%-w%{= BW}%50>%n %t%{-}%+w%<"
+		#hardstatus lastline string='%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
+		#termcapinfo rxvt* 'hs:ts=\E]2;:fs=\007:ds=\E]2;\007'
+		#hardstatus string "screen (%n: %t)"
+		#caption always
+
+hardstatus message
+#COMMENTING test for display issues
+#caption string "%{= kw}%Y-%m-%d;%c %{= kw}%-Lw%{= kG}%{+b}[%n %t]%{-b}%{= kw}%+Lw%1`"
+
+## 
+# SCROLLBACK
+
+	# define scrollback
+	# alternatively, use scrollback buffer from the terminal
+	#termcapinfo xterm* ti@:te@
+defscrollback 10000 
+
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# set terminal type (for mac allows 256 color, dont forget to set your terminal type to xterm-256 color on your mac)
+term screen-256color-bce
+# erase background with current bg color
+defbce "on"
+
+##
+# BINDINGS 
+bind 'K' kill
+bind 'W' windowlist
+bind 'V' split -v
+bindkey -k k8 focus up
+bindkey -k k9 focus down
+
+# F1-F2 navigates, F3-F4 changes command window in a pane, F5-F9 selects individual panes
+# F11/12 to turn the status bar on off
+#termcapinfo xterm 'k1=\E[11~ : k2=\E[12~ : k3=\E[13~ : k4=\E[14~ : kf18=^\[[32~ : kf19=^\[[33~'
+#termcapinfo xterm 'k1=\E[11~ : k2=\E[12~ : k3=\E[13~ : k4=\E[14~ : kf18=^\[[32~ : kf19=^\[[33~'
+
+		#bindkey -k k1 focus up
+		#bindkey -k k2 focus down
+		#bindkey -k k3 prev
+		#bindkey -k k4 next
+		#bindkey -k k5 select 1
+		#bindkey -k k6 select 2
+		#bindkey -k k7 select 3
+		#bindkey -k k8 select 4
+		#bindkey -k k9 select 5
+		#bindkey -k F1 hardstatus alwaysignore
+		#bindkey -k F2 hardstatus alwayslastline
+

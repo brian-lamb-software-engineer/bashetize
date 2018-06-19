@@ -1,0 +1,82 @@
+# Alias definitions.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+
+#default system alias's 
+#enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+
+    # for this current version of dircolors to work
+    alias gdircolors="dircolors"
+fi
+
+#listing
+alias ll='ls -alF'
+alias la='ls -A'
+#alias l='ls -CF'
+alias l='ls -la'
+alias lt='ll -tr'
+
+#misc
+alias hgs="history | grep sparse"
+alias sudo='sudo'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+#navigation
+alias c='clear' 
+alias u='cd ..' 
+alias h='cd' 
+
+#screen
+alias sl="screen -list"
+#run your screens like this, depending if you need to auto detach one or just reonn to a detached
+alias sra="screen -RA"
+alias srad="screen -RAD"
+alias screen2col="screen -c ~/etc/.screen_2col_direct"
+
+#dev searching
+# @TODO any good awk's alias's we can put here?
+alias grin='grep -rinsf  /dev/stdin . <<<'
+#alias grin='grep -Rinsf  - . <<<'
+alias fin="find ./* -name "
+
+#looking to see if servers ports are actively open
+alias netstatt="netstat -tulpn"
+
+#nginx is  jailed, need this access to alternate loc
+alias nginx="sudo /srv/http/usr/bin/nginx"
+alias nginxt="sudo /srv/http/usr/bin/nginx -t -c /srv/http/etc/nginx/nginx.conf"
+
+#git alias's
+# set your author string, sometime part of an email is enough, and maybe more effective than linux name
+GIT_AUTHOR="$USER"
+alias mergetool="git mergetool --tool=vimdiff"
+alias gauthorone="git log --stat --author=${USER} --name-only --oneline | less"
+alias gauthor='git log --stat --author=${GIT_AUTHOR} --name-only'
+alias gfile="git show --pretty='format:' -- name-only "
+alias gitorphan="git checkout --orphan safe"
+alias gss="git status"
+alias gsh="gss"
+alias gl="git log"
+alias gb="git branch"
+alias gl-s="git log --stat"
+alias gd="git diff -b --color" 
+alias glc="git diff --name-only --diff-filter=U"
+alias gr="git remote -v"
+#best way to do a dry run for merge, (dont ever merge on production)
+# then run git merge --abort.  
+#only problem causes changes in working tree
+#alias gitmerge_dry="git merge --no-commit --no-ff $BRANCH"
+
+#RESTART HOST
+alias restart="echo 'The system will execute a graceful reboot n 15 seconds.  Press ctrl+c if you want to cancel.'; 
+    sleep 10; sudo reboot;"
+

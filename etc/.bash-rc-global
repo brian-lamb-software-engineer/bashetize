@@ -1,0 +1,16 @@
+# .bashrc extended remote profile configs for multi server use
+# Note, since rc and not profile, this loads every time, even for interactive non-login shells, e.g. for ssh command access
+#
+#. ~/bin/.git_push_scripts
+#
+# alias has been put to a separate file
+# note that there are git alias that need to source .bash_git_completion prior.
+if [ -f ~/etc/.bash-alias ]; then
+    source ~/etc/.bash-alias
+fi
+
+#for screen, enable the display env var 
+if [ -f ~/etc/.bash-screen-x11 ]; then
+    echo $DISPLAY > $HOME/.display.env
+    source ~/etc/.bash-screen-x11
+fi

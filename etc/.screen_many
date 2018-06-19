@@ -1,0 +1,85 @@
+# This is a modification of joaopiziani's config file (https://gist.github.com/joaopizani/2718397)
+# Major modifications are as follows:
+# 1. Added a set of most useful layouts:
+#       - 0 — one (the only region)
+#       - 1 — two-v (the screen is splitted vertically into two regions)
+#       - 2 — two-h (the screen is splitted horizontally into two regions)
+#       - 3 — three (three regions — two in the upper part of the screen and one underneath)
+#       - 4 — four (four regions)
+# Once selected from within the Screen these layouts are preserved upon detachment until the next
+# resuming of the session (due to "layout autosave on" command below). If you've built your own
+# layout it must be saved with "layout dump filename" command. Then you can use a code from
+# "filename" file to add your layout in #layouts section of this .screenrc to select from.
+# 2. By default "two-v" layout is loaded.
+# 3. The only window with bash is loaded by default.
+# 4. Hotkey code is removed because it doesn't worked for me neither in Ubuntu nor in Centos.
+# Any questions and suggestions are welcome to E-mail: oleg@bolden.ru
+
+# the following two lines give a two-line status, with the current window highlighted
+hardstatus alwayslastline
+hardstatus string '%{= kG}[%{G}%H%? %1`%?%{G}][%= %{= kW}%-w%{+b Yk} %n %t%?(%u)%? %{-}%+w %=%{G}][%{W}%m/%d %{W}%c%{G}]'
+
+
+
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on
+
+# mouse tracking allows to switch region focus by clicking
+mousetrack on
+
+# default windows
+#screen -t Bash  1 bash
+#screen -f -A -a -t top 1
+
+bind c screen 1 # window numbering starts at 1 not 0
+bind 0 select 10
+
+# get rid of silly xoff stuff
+bind s split
+
+# layouts
+layout autosave on
+
+layout new one
+
+layout new two-v
+split -v
+select 1
+
+layout new two-h
+split
+
+layout new three
+split
+split -v
+focus up
+
+layout new three-customized
+screen -f -A -a -t top 1
+
+#split to top and bottom
+split
+focus down
+screen -a -t left 2
+
+
+#split bottom half vertically
+split -v
+focus right
+screen -a -t bottom 3
+focus up
+
+
+layout new four
+split -v
+split
+focus
+focus
+split
+focus
+focus
+
+#layout select two-v
+layout select three-customized

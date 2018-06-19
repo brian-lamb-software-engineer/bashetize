@@ -1,0 +1,25 @@
+##
+# a screen base file
+#
+# for version >4.2 use ~/.screen_layout, and save as default (use screen -RA to reattach)
+
+# Load the master configuration first (.screen_layout)
+source ~/etc/.screen_layout
+
+# after loading .screen_layout, uncomment one of your custom configs 
+#
+source ~/etc/.screen_many
+#
+#source ~/etc/.screen_2col_direct
+
+# the following one needs updating, doesnt work fully yet
+#source ~/etc/.screen_multi_direct
+
+# finally, save the layout as default
+layout save def
+
+#for version <4.2 use old setup
+#source $HOME/etc/.screen_indy
+#source $HOME/etc/.screen_multi
+
+

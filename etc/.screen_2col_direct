@@ -1,0 +1,88 @@
+##
+# .screen_2col_direct
+# for generic multi split screen use
+# screen -c ~/etc/.screen_2col_direct
+# C-a d to detach
+# then screen -RA to reattach with splits correctly
+# 
+# caveats, currently the way its loading the split pane is wrong, to where the right hand pane 
+#output, after command, comes out in left pane.  It might be easy to fix this, or it might 
+# not even happen to you in your setup.  This setup was putty/vim using unknown terminal string
+
+#add session
+#  screen -d -m -S myshell -t tab0 
+
+#since is is intended to be ran directly, il source the layout here instead of on a _direct file
+source ~/etc/.screen_layout
+
+# pane 1 - local bash 
+	screen -f -A -a -t 2col-l 1
+	#shell -$SHELL
+	split -v
+	focus right
+	#screen -f -A -a -t 2col-r 2
+	screen -a -t 2col-r 2
+	#shell -$SHELL
+#	exec /usr/bin/clear
+	focus left
+
+#caption string "%{kk}XXXXXXX"
+
+
+## Other stuff
+## 1 a local bash 
+#	screen -t	jump1	1	bash
+#sessinoname $USER
+	
+## 2 ssh to dev4
+#	split -v
+#	focus 
+#	select 2
+#	resize -6	
+#	screen -t	jump1	2	ssh dev4
+#	caption string "%{kk}XXXXXXX"
+
+## 3 bashed
+#	focus 
+#	select 1 
+#	split
+#	focus 
+#	select 3	
+#	screen -t	bashed 3	bash
+#exec ssh dev4
+#	caption string "%{kk}XXXXXXX"
+
+## 4 bashedup
+#	split
+#	focus down
+#	screen -t	bashedup 4 bash
+#	caption string "%{kk}XXXXXXX"
+
+## 5 compass
+#	split
+#	focus down
+#	resize -14
+#	screen -t	compass 5 bash
+# leave caption commented till resize works	
+#caption string "%{kk}XXXXXXX"
+
+#focus up 
+
+
+## 5mysql
+#	exec mysql -p
+# screen -t	mysql	5	mysql
+
+## 6php
+# screen -t	php.ini	6 vim /etc/php/php.ini
+# select php.ini
+# chdir /etc/php
+# exec vim php.ini
+
+# screen -t	httpd	6	bash
+# select	httpd
+# echo -n restarting htttpd
+# exec sudo systemctl restart httpd
+
+# layout save def
+

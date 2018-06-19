@@ -1,0 +1,160 @@
+#!/bin/bash
+# loopsitecheck
+# author blamb
+# a helper script when you need to keep rechecking for a valid url.  
+#
+set -e;
+DEBUG=FALSE;
+SITE=$2
+if [ -z "$2" ]; then
+    SITE=$1;
+fi
+DEFAULTSITE=localhost;
+
+#This is how you cancel also curl non response error curl (6), just wont return.
+#while [ "$ret" != "0" ]; do curl --silent --head --fail $1; ret=$?; sleep 5; done
+
+lookForCode(){
+    [[ $DEBUG = TRUE ]] && echo "lookFofCode()";
+   
+    #checks across an array of http response codes, if response is in array of
+    # bad codes, returns 0 for true, or null
+    #INFO=${OPTARG};
+    #301 can be a valid BAD URL, as opposed a real url that has moved, this is
+    #is because ISP's tend to have search DNS's waiting for your bad query, 
+    #and this is what they falsely report, e.g. Frontier.
+    CODELIST=("301""302" "404" "500");
+    [[ $DEBUG = TRUE ]] && echo "have CODELIST"; 
+    
+    #grab the response code
+    #RES=$(curl --write-out %{http_code} --silent --output /dev/null $SITE);
+    #RES=$(curl --write-out %{http_code} --output /dev/null $SITE);
+    RES=$(getResponseCode);
+    [[ $DEBUG = TRUE ]] && echo "have RES"; 
+    
+    #return curl. (might have the tendency to return ugly curl (6) respsonse.(see below for fix)
+    #appears fix was actully above, by using getResponseCode function instead. 
+    echo $RES;
+
+    #if you get an ugly curl (6) response for this command do the following
+    #    -1 check to make sure you ran this command, and not curl
+    #    -2 implement one of the solutions below, in favor over the var code RES above.
+    #solution attempt 1 for not returning ugly curl (6) if present
+    #if [ -n "$RES" ]; then
+    #     echo $RES;
+    # else
+    #     echo "No Response Code Retreived!";
+    # fi
+
+    #solution attempt 2 for not returning ugly curl (6) if present
+    #while [ "$ret" != "0" ]; do
+    #     #original code was here
+    #     #curl --silent --head --fail $1;
+    #     #using out var curl command instead
+    #     echo $RES;
+    #     ret=$?; 
+    #     sleep 5; 
+    # done
+    [[ $DEBUG = TRUE ]] && echo "next...";
+    
+    #check for response code inArray, not sure yet, but this look like remanant from an alternative way to check for response code, whichever works best, leave that one... 
+    [[ $DEBUG = TRUE ]] && echo containsElement $RES "${CODELIST[@]}"; 
+    #echo $('containsElement $RES "${CODELIST[@]}"'); 
+    #[[ $DEBUG = TRUE ]] && printf "processed containsElement()...\n";
+    
+    HASVAL=$?
+    [[ $DEBUG = TRUE ]] && echo "set HASVAL";
+
+    # $HASVAL = 0 or null;
+    if [  -z "$HASVAL" ]; then
+        [[ $DEBUG = TRUE ]] && echo "CODELIST item found, will loop until its valid...";
+    else
+        echo "no response;loop-waiting";
+    fi
+}
+
+containsElement () {
+    #equivalent to php inArray()
+    local e
+    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+    return 1
+}
+
+recheckIfEmpty(){
+    #will continually check for site alive, until found, then stop. 
+    CURL="curl -output /dev/null --silent --head --fail http://$SITE";
+
+    until $CURL; do
+        printf '.';
+        sleep 5;
+    done
+}
+
+getResponseCode(){
+    # ALT WAY TO GET RESPONSE CODE
+    [[ $DEBUG = TRUE ]] && printf "in responseCode()\n"; 
+    CODE=$(curl -o /dev/null --head --silent  --write-out '%{http_code}\n' http://$SITE)
+    echo "code:$CODE";
+}
+
+#sleep ".25";
+#echo;
+
+#check if a site was passed, set it to default if not
+if [ -z "$SITE" ]; then
+    SITE=$DEFAULTSITE;
+    echo "No site specified, inspecting $DEFAULTSITE";
+    sleep ".25";
+fi
+
+#echo "..."
+#sleep ".25";
+
+#OPTARGS, with some extra exmaples
+while getopts i:b:p:f: option
+do
+    case "${option}"
+    in
+        i) 
+            [[ $DEBUG = TRUE ]] && echo "option i selected";
+            #TODO THIS OPTIONS BREAKS for bad url , E.G. `-i aa.ld.pvt`, no output.
+            # Start off with info, there are times when you want to know if its 
+            # 404, but still want it to run constantly until its now. E.g. when
+            # adjusting
+            # vhosts
+            lookForCode;
+            #if [  -z "$HASVAL" ]; then
+            #    recheckIfEmpty;
+            #fi
+
+            #might consider this as a normal comment, not just debug
+            [[ $DEBUG = TRUE ]] && echo "will continue to check until found!";
+            recheckIfEmpty;
+            [[ $DEBUG = TRUE ]] && echo "option i complete";
+            ;;
+       # b) 
+       #    a work in progress, any option you like
+       #    # BYPASS=${OPTARG};;
+       #    #TODO useless unless you dont specify a host, and default gets used, so fix this. 
+       #    recheckIfEmpty;
+       #    ;; 
+       # p) 
+       #     PRODUCT=${OPTARG}
+       #     ;;
+       # f) 
+       #     FORMAT=$OPTARG
+       #     ;;
+        *)
+            #[[ $DEBUG = TRUE ]] && echo "rechecking...";
+           # recheckIfEmpty;
+            [[ $DEBUG = TRUE ]] && echo "default doing nothing now";
+            ;;
+    esac
+done
+
+#had to move back, when its in option default, and no options are to trigger the array what happens?
+[[ $DEBUG = TRUE ]] && echo "Last recheck, for when no options were specified (theres a better way to call this)";
+recheckIfEmpty;
+
+echo "completed..."
+exit;
