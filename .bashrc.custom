@@ -1,11 +1,13 @@
 #.bashrc.custom
 #
 # To bashitize, include the follwing two global files in ~/etc
-if [ -f ~/etc/.bash-rc-global ]; then
-    . ~/etc/.bash-rc-global
+if [ -f $HOME/etc/.bash-rc-global ]; then
+    . $HOME/etc/.bash-rc-global
 fi
-if [ -f ~/etc/.bash-profile-global ]; then
+if [ -f $HOME/etc/.bash-profile-global ]; then
     . $HOME/etc/.bash-profile-global
 fi
-# Add your customizations to one of the above two files, or their children, to keep things clean.
+
 ##
+# Add your customizations to one of the above two files, or their children, to keep things clean.
+#
