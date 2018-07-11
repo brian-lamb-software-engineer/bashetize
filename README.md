@@ -17,9 +17,11 @@
 - dircolors, which allows custom colors your directorys and files, helping you to easily decipher and recognize them
 
 ## Instructions
-1. copy files into your home directory
-2. ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
-3. add your username and email to `~/.gitconfig` 
+1. clone the package onto your server
+2. copy files into your home directory from whatever path you cloned it. 
+   `$ rsync -rlp --exclude=".git*" ~/packges/bashetize/ ~/`
+3. ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
+4. add your username and email to `~/.gitconfig` 
 - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4 lines to your desired colors.  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
 
 ## Notes
