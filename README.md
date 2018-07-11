@@ -23,6 +23,7 @@
 3. ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
 4. add your username and email to `~/.gitconfig` 
 - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4 lines to your desired colors.  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
+5. Make sure your ssh config permissions are correc `$ chmod 600 ~/.ssh/config`
 
 ## Notes
 - some of the more useful aliases
