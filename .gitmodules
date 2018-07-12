@@ -1,6 +1,6 @@
-[submodule "dircolors"]
-	url = git@github.com/gibbling/dircolors.git
-	path = userhome/.dircolors
 [submodule ".vim/bundle/puppet"]
 	url = git://github.com/rodjek/vim-puppet.git
 	path = userhome/.vim/bundle/puppet
+[submodule "userhome/.dircolors"]
+	path = userhome/.dircolors
+	url = https://github.com/gibbling/dircolors.git
