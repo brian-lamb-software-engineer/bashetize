@@ -4,3 +4,6 @@
 [submodule "dircolors"]
 	path = .dircolors
 	url = ./.dircolors/.git
+[submodule "binfiles"]
+	path = bin
+	url = ./bin/.git
