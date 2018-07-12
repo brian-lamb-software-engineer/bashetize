@@ -1,5 +1,5 @@
 [submodule "dircolors"]
-	url = git@gitlab.causewaynow.com:blamb/bashetize.git/.dircolors/.git
+	url = git@github.com/gibbling/dircolors.git
 	path = userhome/.dircolors
 [submodule ".vim/bundle/puppet"]
 	url = git://github.com/rodjek/vim-puppet.git
