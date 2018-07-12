@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# This script is to copy a soundcloud playlist to a dir with the equivalent name of the playlist
+#
+
+URL=$1;
+MUSIC_DIR=~/music/soundcloud;
+PLAYLIST_NAME=${URL##*/}
+FULL_PATH=$MUSIC_DIR/$PLAYLIST_NAME;
+FULL_PATH_TO_YOUTUBE_DL=~/bin
+
+function copyMedia {
+    echo '..making dir'; sleep 1;
+    mkdir $MUSIC_DIR/$PLAYLIST_NAME
+
+    echo '..switching to that dir'; sleep 1;
+    cd $MUSIC_DIR/$PLAYLIST_NAME
+
+    echo '..downloading media'; sleep 1;
+    #execute the command
+    $FULL_PATH_TO_YOUTUBE_DL/youtube-dl $URL;
+
+    echo 'operation completed';
+}
+
+if [ -d "$FULL_PATH" ]; then
+    echo '..that playlist directory already exists, if you want to download it again, remove that directory.';
+    exit;
+else
+    while true; do
+        read -p "..warning, this is only set up for soundcloud, and will get the path from a soundcloud url, and make that directory.  if you run it on a youtube video, consequences are unknown, continue? " yn
+        
+    case $yn in
+            [Yy]* )
+                echo; echo "..will continue"; 
+                sleep 1;
+                copyMedia;
+                break;;
+
+            [Nn]* )
+                echo "operation canceled!"; echo;
+                exit;;
+
+            * ) echo "Please answer y or n!";;
+        esac
+    done
+fi
+
+
