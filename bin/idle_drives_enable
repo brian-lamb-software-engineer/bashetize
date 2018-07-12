@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# idle_drives_enable
+# Sets idle times to drives, usually needed at boot
+
+# Default idle time covers all drives, including zfs drives, unless otherwise specified
+DEFAULT_IDLE_TIME=120;
+
+# Root drive we want to increase a bit, so specify separately 
+ROOT_IDLE_TIME=360;
+
+
+#ALLDRIVELIST=("a" "b" "c" "d" "e" "f" "g");
+#for DRIVE in "${ALLDRIVELIST[@]}";
+#do
+#    #/sbin/hdparm -C /dev/sd$DRIVE 
+#     
+#done
+
+#------------------------------------------------------------------
+# Using hd-idle 
+# @dependency sudo yum install hd-idle
+#
+## 120 seconds is 10 minutes, 360 is 30 minutes
+## Set default idle time on all.  
+#/sbin/hd-idle -i $DEFAULT_IDLE_TIME;
+
+## Set root drive idle time longer, incase doing work, dont want to continually be waking it up
+
+## sdb is current root, but sometimes changes
+##/sbin/hd-idle -a /dev/sdb
+
+## Use uuid instead because it never changes.  Specifying the root partition is enough to trigger the whole drive. 
+#/sbin/hd-idle -a /dev/disk/by-uuid/bbc69fc6-12fa-499a-a0c6-e0f65e248ce2 -i $ROOT_IDLE_TIME;
+
+#echo "/usr/local/bin/idle_drives_enable complete! Default idle time of $DEFAULT_IDLE_TIME seconds was set. Additionally, the root drive is set to idle after $ROOT_IDLE_TIME seconds.";
+
+
+#------------------------------------------------------------------------
+# hd-idle is not allowing wake, are these considered scsi??
+# testing with hdparm instead
+
+echo "executing /usr/local/bin/idle_drives_enable..."
+echo "using hdparm"
+echo "Here is the output of the current hdparm -C"
+/sbin/hdparm -C /dev/sd?
+
+echo "setting idle times now..."
+/sbin/hdparm -q -S  $DEFAULT_IDLE_TIME -y /dev/sd?
+
+echo "done settting idle times. to default idle time ($DEFAULT_IDLE_TIME seconds)."
+echo "Here is the output of the current hdparm -C"
+/sbin/hdparm -C /dev/sd?
+
+echo "/usr/local/bin/idle_drives_enable complete!"

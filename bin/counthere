@@ -1,0 +1,26 @@
+#!/bin/bash
+#counthere
+# blamb dot dev at gmail dot com
+set -e;
+DIR=$1;
+sleep ".2";
+echo "
+... counthere";
+if [ -z "$DIR" ]; then
+    THISDIR="$(pwd)"; 
+else
+    #count this dir
+    THISDIR=$DIR; 
+fi
+DIRCOUNT="$(find $DIR -type d | wc -l)";
+FILECOUNT="$(find $DIR -type f | wc -l)";
+TOTALCOUNT="$(find $DIR | wc -l)";
+echo  &&
+sleep ".2";
+echo "dirs ${DIRCOUNT}" && 
+sleep ".2";
+echo "files ${FILECOUNT}" &&
+sleep ".2";
+echo "(${TOTALCOUNT}) ${THISDIR}";
+#TODO make recursive
+
