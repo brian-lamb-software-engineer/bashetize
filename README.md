@@ -21,7 +21,7 @@
 1. clone the package onto your server
 2. Install the submodules `git submodule update --init`
 3. copy the `userhome/` files into your home directory from whatever path you cloned it. 
-    `$ rsync -rlp --exclude=".git*" ~/packges/bashetize/userhome/ ~/`
+    `$ rsync -rlp --exclude=".git*" ~/packages/bashetize/userhome/ ~/`
 4 ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
 5. update your username and email to `~/.gitconfig` 
 6. Make sure your ssh config permissions are correct 
