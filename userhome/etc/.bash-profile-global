@@ -4,14 +4,18 @@
 #
 # load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
 . ~/etc/.bash-colours
-. ~/etc/.bash-my-colors
 . ~/etc/.git-prompt.sh
+
+# For the following, use the plain config if you want to use your terminal profile colors instead, e.g. mac terminal profile.  Some 
+# prefer the bash configuration since it will work on virtually all linux systems. 
+#. ~/etc/.bash-my-colors-plain
+. ~/etc/.bash-my-colors
 
 # PATH extensions
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
 
-# ~/.dircolors/themefile
+# ~/.dircolors/themefile (choose one, see ~/.dircolors)
 if [ -f ~/.dircolors/dircolors.256dark ]; then
     eval $(gdircolors ~/.dircolors/dircolors.256dark)
 fi
