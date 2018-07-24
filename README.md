@@ -19,13 +19,15 @@
 
 ## Instructions
 1. clone the package onto your server
-2. Install the submodules `git submodule update --init`
-3. copy the `userhome/` files into your home directory from whatever path you cloned it. 
-    `$ rsync -rlp --no-perms --exclude=".git*" ~/packages/bashetize/userhome/ ~/`
-4 ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
-5. update your username and email to `~/.gitconfig` 
-6. Make sure your ssh config permissions are correct 
-    `$ chmod 600 ~/.ssh/config`
+2. cd into the package
+   `$ cd bashetize`
+3. Install the submodules `git submodule update --init`
+4. Install the files using the below script.  Be sure that you run the install script inside the git package, since it looks locally(relative path) for its file
+    `$ cd ./install.sh`. 
+5. ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
+6. update your username and email to `~/.gitconfig` 
+7. Make sure your ssh files have the correct perms.  If not, issue the following. 
+    `$ chmod 600 ~/.ssh/config && chmod 700 ~/.ssh/cm_socket` (note the `cm_socket` dir might not be used yet depending on your version of .ssh/config (see there in the global section)
 - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4-6 lines to your desired colors.  E.g. change the word `BIGreen` to `BICyan`, etc..  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
 
 ## Notes
