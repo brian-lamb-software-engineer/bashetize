@@ -1,0 +1,25 @@
+#.bashrc.custom
+# .bashrc.custom allows servers that use puppet to now be overwritten when it controls .bashrc.  normally, these would go on .bash_profile, but puppet controls this so moving to .bash_custonm file
+#  Sourced from .bashrc
+
+# blamb bashitize (.bash profile additions)
+# - This is set to a .bashrc.custom because on puppet controlled servers this is file you need when .bashrc is being controlled by puppet. 
+# - To bashitize, uncomment the following lines to add in the extra bash configurations
+# Some notes on this
+# - Most functionality is inherited, no real adjustments needed 
+# - Includes a global .gitconfig, be sure to change the email and username on the bottom of that.
+# - Will show your git branch when your logged in
+# - See ~/etc/.bash-alias to adjust your alias's
+# - See ~/etc/.bash-my-colors to adjust your term colors
+# - See .vimrc to adjust your vim colorscheme
+# - If your a gnu screen user, after compiling (make) the source into your ~/bin as 'screen' the new custom config will work right away, use `screen -RA` to launch, and ctrl + a D to detach.
+#
+# blamb bashitize, see notes on (uncomment the following lines to add in the extra bash configurations)
+if [ -f ~/etc/.bash-rc-global ]; then
+    . ~/etc/.bash-rc-global
+fi
+if [ -f ~/etc/.bash-profile-global ]; then
+    . $HOME/etc/.bash-profile-global
+fi
+
+# more user specific alias and functions
