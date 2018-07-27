@@ -1,0 +1,12 @@
+# .bash_profile extended remote profile configs for multi server use
+# Note, since profile, this loads only once, for login shells only, to prepare
+# for the command prompt
+#
+# load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
+. ~/etc/.bash-colours
+. ~/etc/.bash-my-colors
+
+# ~/.dircolors/themefile
+if [ -f ~/.dircolors/dircolors.256dark ]; then
+    eval $(gdircolors ~/.dircolors/dircolors.256dark)
+fi

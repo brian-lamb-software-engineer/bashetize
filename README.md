@@ -4,6 +4,7 @@
 - Jumpstarts your workflow
 - Most functionality is inherited, only a minor adjustment needed
 - Currently configured for RHEL/CentOS/AWSLinux 
+- will also work for rootA
 
 ## Includes
 - global `.gitconfig`, which provides some nice eye candy to terminal use, git branch shows up on your PS1 prompt, includes branch, diff, jstatus color configurations, grep credential, sslverify and core customizations for e.g. autocrls, filemode, ignorecase, includes your name and email so you only have to configure it once, and not for every repo you pull down. 
@@ -18,16 +19,40 @@
 - dircolors, which allows custom colors your directorys and files, helping you to easily decipher and recognize them
 
 ## Instructions
-1. clone the package onto your server
+There are two ways to run this.  
+- One way is automatically from `/etc/profile.d` so that from an administrative level, it will auto install for any user that logs on after creating a symlink for `etc/bashetize.sh` in your `/etc/profile.d`
+- The other way is you can run the install.sh script to copy files into your user directory. 
+- Either way you choose, it will not overwrite anything that already exists so you dont need to worry about losing any configuration changes. 
+
+### Method 1 install to `/etc/profile.d`
+1. Clone the package onto your server somewhere in your user dir.
 2. cd into the package
    `$ cd bashetize`
 3. Install the submodules `git submodule update --init`
-4. Install the files using the below script.  Be sure that you run the install script inside the git package, since it looks locally(relative path) for its file
-    `$ cd ./install.sh`. 
-5. ensure `~/.bashrc.custom` is sourced (in .bashrc normally)
-6. update your username and email to `~/.gitconfig` 
-7. Make sure your ssh files have the correct perms.  If not, issue the following. 
-    `$ chmod 600 ~/.ssh/config && chmod 700 ~/.ssh/cm_socket` (note the `cm_socket` dir might not be used yet depending on your version of .ssh/config (see there in the global section)
+4. Move the package to a home, a suitable location would be to `/usr/local/src`
+   `sudo mv bashetize /usr/local/src`
+   you can leave the permissions to which ever user is the current package owner (dont chown to root or there will be copy issues)
+4. symlink the `bin/bashetize.sh script to `/etc/profile.d`
+   `$ sudo ln -s `/usr/local/src/bashetize/bin/bashetize.sh /etc/profile.d`
+On the next login, it will auto install, as long as you dont have a ~/.bashrc.custom file
+
+### Method 2 copy files directly to your user dir
+1. clone the package. 
+2. cd into the package
+   `$ cd bashetize`
+3. Install the submodules `git submodule update --init`
+4. Run the install.sh script to copy the files into your home dir. 
+   - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
+   `$ ./install.sh`. 
+
+### After installation for a given user
+1. 1. If your not using a system controlled by puppet, or one that doesnt source .bashrc.custom from the .bashrc file, ensure `~/.bashrc.custom` is sourced (in .bashrc normally) by adding the following lines to your .bashrc
+   ```
+   if [ -f ~/.bashrc.custom ]; then
+       . ~/.bashrc.custom
+   fi
+   ```
+2. update your username and email on `~/.gitconfig` 
 - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4-6 lines to your desired colors.  E.g. change the word `BIGreen` to `BICyan`, etc..  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
 
 ## Notes
@@ -39,3 +64,7 @@
 - See .vimrc to adjust your vim colorscheme
 - If your a gnu screen user
 -- To use the gnu screen layout, you will need a later version of screen, e.g. 4.2. make then compile that into your bin dir, and add an alias, or make then install the latest version of it onto your stack as sudo. The new custom config will work right away, use `screen -RA` to launch, and ctrl + a D to detach.
+
+## known issues
+- When the directory `.ssh/cm_socket`, specified on .ssh/config, is copied, if the owner is other than the one who runs the copy command, rsync complains that it cand read into the directory.  This is acceptable because its empty anyway, and its only that dir which is needed, which does successfuly copy anyway. This happends because the `cm_socket` dir needs to be set to 700, so for now it is 700.  At a later time the `cm_socket can be set to 755, or 775, then the rsync command, or another command issued, can be adjusted to set it to 700 afgter the copy.   
+- If you opt for the global profile.d installation option, do a careful server restart test to see if any user with nologin, or non interactive shell is affected, e.g. that all your services start correctly.  You will know if your server doesnt startup and become accessible as fast as normal, or if you view your system logs to see if any services had any problem starting. There needs to be a check of some sort on the profile.d/bashetize.sh script to check for a certain group of users, or that user isnt nologin, or non interactive, because in test cases it was being triggered by something for some reason.  . 
