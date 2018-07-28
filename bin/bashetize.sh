@@ -33,9 +33,8 @@ ROOT_BASHETIZE_BASHRC_CUSTOM=${ROOT_BASHETIZE_PATH}/${BASHRC_CUSTOM};
 ROOT_BASHETIZE_ETCFILES=${ROOT_BASHETIZE_PATH}/etc;
 
 function logEntry {
-    echo "See /etc/profile.d/bashetize.sh" | logger >> /dev/null;
-    echo "Time: $(/bin/date). $(whoami)" | logger >> /dev/null;
-    echo "This log contains entrys of the user in which this script has ran for.  There should be no entry for a user that has no bash, e.g. whose shell is /sbin/nologin, etc..,  since this is running from profile.d" | logger >> /dev/null;
+    # There should be no entry for a user that has no bash, e.g. whose shell is /sbin/nologin, etc..,  since this is running from profile.d
+    echo "/etc/profile.d/bashetize.sh triggered by $(whoami)" | logger >> /dev/null;
 }
 
 function promptUser {
@@ -43,13 +42,14 @@ function promptUser {
     #echo "No .bashrc.custom file was found"
     echo "This is the first login since a recent update incorporating Bashetize, or this is a new user."
 
+
     # prompt user first to install 
     while true; do 
             read -p "Do you want to install Bashetize(custom bash files) now? (recommended) (y/n)?" yn
         case $yn in
             [Yy]* )
                 echo;  
-                echo "Time: $(/bin/date). $(whoami) installing." | logger >> /dev/null;
+                echo "$(whoami) installing Bashetize." | logger >> /dev/null;
 
                 #install it
                 # TODO how do you redirect only errors, but not the read -p line to the log.  this is currently doing both. 
@@ -59,7 +59,7 @@ function promptUser {
             [Nn]* )
                 echo "Install canceled, exiting!"
                 echo;
-                echo "Time: $(/bin/date). $(whoami) opted out." | logger >> /dev/null;
+                echo "$(whoami) opted out." | logger >> /dev/null;
                 break;;
             * ) echo "Please answer y or n!";;
         esac
@@ -87,12 +87,12 @@ function offerUserColorChoice {
             case $yn in
                 [Yy]* )
                     # do nothing, default is already being used
-                    echo "Time: $(/bin/date). $(whoami) chose default color scheme." | logger >> /dev/null;
+                    echo "$(whoami) chose default color scheme." | logger >> /dev/null;
 
                     break;;
 
                  [Nn]* )
-                    echo "Time: $(/bin/date). $(whoami) chose the plain color scheme." | logger >> /dev/null;
+                    echo "$(whoami) chose the plain color scheme." | logger >> /dev/null;
 
                     echo "Using the plain file."
                     echo "To test the colored PS1 (recommended), see ~/etc/.bash-profile-global!"; 
@@ -147,30 +147,38 @@ function installBashetize {
             #Is not root, set vars to user files
             offerUserColorChoice;
         fi
-        echo "Time: $(/bin/date). $(whoami) install completed." | logger >> /dev/null;
+        echo "$(whoami) install completed." | logger >> /dev/null;
 
         # now source the custom bash file out of the users dir
         . ~/${BASHRC_CUSTOM};
-        echo "Time: $(/bin/date). $(whoami) sourced ~/${BASHRC_CUSTOM}." | logger >> /dev/null;
+        echo "$(whoami) sourced ~/${BASHRC_CUSTOM}." | logger >> /dev/null;
 
     else 
         echo "Bashetize custom bash file (${BASHETIZE_BASHRC_CUSTOM}) not found, cant install anything, ignoring.";
-        echo "Time: $(/bin/date). $(whoami) source bash file ${BASHETIZE_BASHRC_CUSTOM} not found, aborting." | logger >> /dev/null;
+        echo "$(whoami) source bash file ${BASHETIZE_BASHRC_CUSTOM} not found, aborting." | logger >> /dev/null;
     fi
     
     #TODO will not need to source the custom bash file from .bashrc
     #...
 }
 
-#TODO consider running this only if user group is causeway
-# copy in .bashrc.custom
-if [ ! -f ~/${BASHRC_CUSTOM} ]; then
-    #before we install, log entry and prompt the user
-    logEntry;
-    promptUser;
-#else
-#    #  sourcing.
-#	  #. ~/${BASHRC_CUSTOM}
-#    sleep 0;
-#    # TODO check if this file contains the includes for the custom configs in etc/ before
+#MAKE SURE NOT pe-postgresql, puppet was having problems because /etc/init.d/pe-postgres service triggers /bin/bash so this runs
+if [[ ! "$(whoami)" =~ ^pe ]]; then
+    echo "Allowing user $(whoami)" | logger >> /dev/null;
+    #TODO consider running this only if user group is causeway
+    # copy in .bashrc.custom
+    if [ ! -f ~/${BASHRC_CUSTOM} ]; then
+        #before we install, log entry and prompt the user
+        logEntry;
+        promptUser;
+    #else
+        #echo ".bashrc.custom found";
+        #  sourcing.
+	      #. ~/${BASHRC_CUSTOM}
+        #sleep 1;
+        # TODO check if this file contains the includes for the custom configs in etc/ before
+    fi
+else
+    # Leave uncommented only for testing
+    echo "Bypassing user $(whoami)" | logger >> /dev/null;
 fi
