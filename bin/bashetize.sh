@@ -1,6 +1,20 @@
 # /etc/profile.d/bashetize.sh stuff
-# intended to add custom bash configs to root and users
+#
+# Skip this entire script if NOT Terminal, return to parent script. Works because parent script is calling this.  
+if [ ! -t 0 ]; then
+    # DEBUG leave following line commented only to debug 
+    echo "$BASH_SOURCE Bypassing user $(whoami), returning..." | logger >> /dev/null;
 
+    #important, return to parent script
+    return
+fi
+
+##
+# Install custom user bash and other configs into user dir
+# Intended  for root and users
+#
+# TODO consider running this only if user group is specific.  e.g. `causeway`
+#
 # TODO add functionality if .bashrc.custom exists already, check if it has 
 #  the lines on it that source the basehtizez files, if not, then append 
 #  that info, and THEN check if etc files exist, otherwise copy in etc files, as 
@@ -13,13 +27,15 @@
 #  auto source it from yoru .bashrc. Infact, will probably need that functionaliy 
 #  anyway in order for this to work. 
 
-# in puppet
+# In puppet
 #file { "/etc/profile.d/bashetize.sh":
 #    ensure => present,
 #        source => ...[whatever's appropriate for your setup]...,
 #            ...
 #}
-
+ 
+##
+# Declare Variables
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 DIR=/usr/local/src/bashetize;
 BASHRC_CUSTOM=.bashrc.custom
@@ -32,20 +48,25 @@ ROOT_BASHETIZE_PATH=$DIR/root;
 ROOT_BASHETIZE_BASHRC_CUSTOM=${ROOT_BASHETIZE_PATH}/${BASHRC_CUSTOM};
 ROOT_BASHETIZE_ETCFILES=${ROOT_BASHETIZE_PATH}/etc;
 
+##
+# Functions
 function logEntry {
     # There should be no entry for a user that has no bash, e.g. whose shell is /sbin/nologin, etc..,  since this is running from profile.d
-    echo "/etc/profile.d/bashetize.sh triggered by $(whoami)" | logger >> /dev/null;
+    echo "$BASH_SOURCE triggered by $(whoami)" | logger >> /dev/null;
 }
 
 function promptUser {
     echo
     #echo "No .bashrc.custom file was found"
-    echo "This is the first login since a recent update incorporating Bashetize, or this is a new user."
+    echo "There has been a recent update (or this is a new user account) incorporating some global linux development environment
+    enhancements.  This is an attempt at unifying and streamlining developer functionality experience.  This script
+    will copy some files from $DIR into your home directory, and will not overwrite anything.  Please accept the
+    customizations."
 
 
     # prompt user first to install 
     while true; do 
-            read -p "Do you want to install Bashetize(custom bash files) now? (recommended) (y/n)?" yn
+            read -p "Do you want to install this update now? (recommended) (y/n)?" yn
         case $yn in
             [Yy]* )
                 echo;  
@@ -162,23 +183,16 @@ function installBashetize {
     #...
 }
 
-#MAKE SURE NOT pe-postgresql, puppet was having problems because /etc/init.d/pe-postgres service triggers /bin/bash so this runs
-if [[ ! "$(whoami)" =~ ^pe ]]; then
-    echo "Allowing user $(whoami)" | logger >> /dev/null;
-    #TODO consider running this only if user group is causeway
-    # copy in .bashrc.custom
-    if [ ! -f ~/${BASHRC_CUSTOM} ]; then
-        #before we install, log entry and prompt the user
-        logEntry;
-        promptUser;
-    #else
-        #echo ".bashrc.custom found";
-        #  sourcing.
-	      #. ~/${BASHRC_CUSTOM}
-        #sleep 1;
-        # TODO check if this file contains the includes for the custom configs in etc/ before
-    fi
-else
-    # Leave uncommented only for testing
-    echo "Bypassing user $(whoami)" | logger >> /dev/null;
+
+##
+# Initialize
+if [ ! -f ~/${BASHRC_CUSTOM} ]; then
+    #before we install, log entry and prompt the user
+    logEntry;
+    promptUser;
+#else
+    #  sourcing.
+    #. ~/${BASHRC_CUSTOM}
+    #sleep 1;
+    # TODO check if this file contains the includes for the custom configs in etc/ before
 fi
