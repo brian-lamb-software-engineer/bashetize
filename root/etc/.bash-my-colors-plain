@@ -1,48 +1,18 @@
 ##
 # bash_colour_<hostname>
-# A bash terminal color changer. 
-#
-# Set your colors to server vars first, adjust these once for any given server
-# see file etc/.bash_colours as reference
-#For a starting point, you can use the following as a guideline, customizing from there
-#PERSONAL=Green
-#DEV=Green
-#STAGE=Yellow
-#PRE-PROD=Red
-#PROD=Red
+# A PS1 adjustment file. 
+# Since this is the plain version, it doesnt contain all the color adjustments that the non plain file does 
 
-
-#########################
-# Adjust your colors here
-MY_UNDER="${UGreen}"
-MY_BASE="${IGreen}"
-MY_AT="${BIGreen}"
-MY_BOLD="${BIGreen}"
-MY_HOST="${BIGreen}"
-#########################
 
 ##
-# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
-#
-# terminal (non screen colors)
-TERM_PROMPT="${MY_UNDER}"
-# screen colors
-#
-# edunphy edit, commenting the following colors.  
-#LOC="${MY_BASE} \w"
 LOC=" \w"
-
 BRANCH='$(__git_ps1 " [%s]")'
-#
-# edunphy fix, commenting the colors
-#PROMPT="${MY_BASE}\$" 
 PROMPT="\$ " 
 TEXT="${White} "
-#following two kept here for ease of adjustment (instead of in conditional)
+
+##
+# following two kept here for ease of adjustment (instead of in conditional)
 #
-# edunphy color fix, commenting colors
-#TERM_BASE="${MY_UNDER}\u${MY_AT}@${MY_HOST}\h"
-#SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_BOLD}\h"
 TERM_BASE="\u@\h"
 SCREEN_BASE="\u@\h"
 
@@ -76,21 +46,11 @@ SCREEN_BASE="\u@\h"
 if [ -z $STY ]
 then
     # Default tty prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file. 
-    #
-    # edunphy fix, commenting colors below
-    #PS1=$TERM_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
     PS1=$TERM_BASE$LOC$BRANCH$PROMPT
     # an alternate PS1 for this scenario
     # PS1="{$TERM_PROMPT}{$BRANCH}$White \$"
 else
     #screen prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file. 
-    #
-    # edunphy fix, commenting colors below
-    #PS1=$SCREEN_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
     PS1=$SCREEN_BASE$LOC$BRANCH$PROMPT
 fi
 
