@@ -4,7 +4,8 @@
 #
 # load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
 . ~/etc/.bash-colours
-. ~/etc/.git-prompt.sh
+# you may only need one git branch include here, depending if your using __git_ps1 or $(parse_git_branch) on your .bash-my-colors file when constructing your PS1
+. ~/etc/.git-prompt
 
 # For the following, use the plain config if you want to use your terminal profile colors instead, e.g. mac terminal profile.  Some 
 # prefer the bash configuration since it will work on virtually all linux systems. 
