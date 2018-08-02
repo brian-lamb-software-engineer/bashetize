@@ -1,39 +1,42 @@
 ##
-# bash_colour_<hostname>
-# A bash terminal color changer. 
-#
-# Set your colors to server vars first, adjust these once for any given server
+# .bash-my-colors
+# A PS1 adjustment script
+# sourced somewhere in your bash_profile chain.
+
+#########################
+# Adjust your colors here, set different on each server to differ
 # see file etc/.bash_colours as reference
-#For a starting point, you can use the following as a guideline, customizing from there
-#PERSONAL=Green
-#DEV=Green
-#STAGE=Yellow
+# e.g. my_under@my_host or through screen (tmux, etc) my_base@my_screen-host  
+# By Default, try to use the following as a guideline, customizing from there
+#Personal=Green
+#Dev=Green
+#Stage=Yellow
 #PRE-PROD=Red
-#PROD=Red
-
-
+#PROD=BRed
 #########################
-# Adjust your colors here
-MY_UNDER="${URed}"
 MY_BASE="${IRed}"
+MY_BASE_UNDER="${URed}"
 MY_AT="${BIRed}"
-MY_BOLD="${BIRed}"
 MY_HOST="${BIRed}"
+MY_SCREEN_HOST="${BIRed}"
 #########################
-
 
 ##
+# Build PS1
 # Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
 #
 # terminal (non screen colors)
-TERM_PROMPT="${MY_UNDER}"
-# screen colors
-LOC="${MY_BASE} \w"
+TERM_PROMPT="${MY_BASE_UNDER}"
+#
+# build PS1s
+CURRENT_LOCATION=" ${MY_BASE}\w"
 PROMPT="${MY_BASE}\$" 
-TEXT="${White} "
-#following two kept here for ease of adjustment (instead of in conditional)
-TERM_BASE="${MY_UNDER}\u${MY_AT}@${MY_HOST}\h"
-SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_BOLD}\h"
+TEXT="${ResetColor} "
+#
+# Following two kept here for ease of adjustment (instead of in conditional)
+# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
+TERM_BASE="${MY_BASE_UNDER}\u${MY_AT}@${MY_HOST}\h"
+SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_SCREEN_HOST}\h"
 
 
 ###
@@ -55,7 +58,7 @@ SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_BOLD}\h"
 #
 # a) Option A, Always use best color
 # no editing needed
-# PS1=$SCREEN_BASE$LOC$IBlack$BRANCH$PROMPT$TEXT
+# PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$PROMPT$TEXT
 
 # b) Option B, Use the non screen color firs,t then when screened use the screen color. 
 # Always run 'screen -RA', or screen-RAD if your wanting to detach it first incase you
@@ -68,13 +71,19 @@ then
     # Default tty prompt
     # no color editing needed, instead edit the VARS that represent the colors, at top 
     #   of this file. 
-    PS1=$TERM_BASE$LOC$IBlack$PROMPT$TEXT
+    export PS1=$TERM_BASE$CURRENT_LOCATION$IBlack$PROMPT$TEXT
     # an alternate PS1 for this scenario
-    # PS1="{$TERM_PROMPT}$White \$"
+    # PS1="{$TERM_PROMPT${TEXT} \$"
 else
     #screen prompt
     # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file. 
-   PS1=$SCREEN_BASE$LOC$IBlack$PROMPT$TEXT
+    #   of this file.
+    export PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$PROMPT$TEXT
 fi
-
+#
+# For FreeBSD and Mac, dircolors
+# enables colored output for dirs
+export CLICOLOR=1
+# color configuration for dirs
+export LSCOLORS=GxFxCxDxBxegedabagaced
+#
