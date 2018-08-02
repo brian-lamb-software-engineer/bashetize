@@ -43,10 +43,11 @@
 LS_COLORS=$LS_COLORS:'di=0;94:' ; export LS_COLORS
 USER_LS_COLORS=$LS_COLORS:'di=0;91:' ; export USER_LS_COLORS
 
+##
+# BASH Colors
 #
-#BASH Colors
-
 Color_Off="\[\033[0m\]"       # Text Reset
+ResetColor="\[\e[00m\]"       # Text Reset
 
 #GOOD COLORS
 #echo -e "\\033[48;5;95;38;5;214mhello world\\033[0m"
@@ -58,7 +59,7 @@ Orange="\e[33;40m"
 Black="\[\033[0;30m\]"        # Black
 Red="\[\033[0;31m\]"          # Red
 Green="\[\033[0;32m\]"        # Green
-GreenAlt="\[\032[0;40m\]"        # Green
+GreenAlt="\[\032[0;40m\]"     # Green
 Yellow="\[\033[0;33m\]"       # Yellow
 Blue="\[\033[0;34m\]"         # Blue
 Purple="\[\033[0;35m\]"       # Purple
