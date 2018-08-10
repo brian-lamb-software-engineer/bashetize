@@ -1,6 +1,12 @@
-[submodule ".vim/bundle/puppet"]
+[submodule "userhome/.vim/bundle/puppet"]
 	url = git://github.com/rodjek/vim-puppet.git
 	path = userhome/.vim/bundle/puppet
 [submodule "userhome/.dircolors"]
 	path = userhome/.dircolors
+	url = https://github.com/gibbling/dircolors.git
+[submodule "root/.vim/bundle/puppet"]
+	path = root/.vim/bundle/puppet
+	url = git://github.com/rodjek/vim-puppet.git
+[submodule "root/.dircolors"]
+	path = root/.dircolors
 	url = https://github.com/gibbling/dircolors.git
