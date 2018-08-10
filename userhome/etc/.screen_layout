@@ -77,14 +77,37 @@ hardstatus message
 	# define scrollback
 	# alternatively, use scrollback buffer from the terminal
 	#termcapinfo xterm* ti@:te@
-defscrollback 10000 
+defscrollback 100000 
 
+##
 # 256 colors
 attrcolor b ".I"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-# set terminal type (for mac allows 256 color, dont forget to set your terminal type to xterm-256 color on your mac)
+#
+# Set term type.  
+# -bce variant. 
+# also erases background with current bg color, but you need to also turn it on with defbre "on" below that
+# Found this background info on -bce variant
+#
+#The -bce variants support "background color erase", which means that
+#areas of the screen can be cleared by erasing them rather than filling
+#them with space characters. This may be faster, and prevents extra
+#spaces when doing copy-paste from the terminal.
+#
+#While that may all sound nice, you can't actually use the last one
+#(screen-256color-bce-s) because the name is too long[5]. Ignoring that
+#for now, our immediate goal is to make 256 colors work again. Since bce
+#is nice to have, and it's supported in GNOME Terminal, we'll use
+#screen-256color-bce by putting the following in ~/.screenrc:
+#
+#    term screen-256color-bce
+#    defbce on
+#
+#After restarting screen, you should be back to 256 colors.
+#
+#
+# (for mac allows 256 color, dont forget to set your terminal type to xterm-256 color on your mac)
 term screen-256color-bce
-# erase background with current bg color
 defbce "on"
 
 ##
