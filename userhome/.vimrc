@@ -12,7 +12,11 @@ syntax on
 
 " in vim, use :colorscheme   then tab key to see all available. Some good ones, solarized, antares, desert-256, c64, ibm,  many more. 
 " uncomment your favourite colorscheme here. (note that the color comments are for a .vimrc file, but for e.g. php/javascript files the colors will be slightly different, so you just have to load them to test them)
-"colorscheme badwolf	       " awesome colorscheme for most developer, has some reds in it
+"colorscheme badwolf	      " awesome colorscheme for most developer, has some reds in it
+"colorscheme gardener	      " vim recommended for full 256
+"colorscheme desert256	    " vim recommended for full 256
+"colorscheme inkpot	        " vim recommended for full 256
+"colorscheme 256-grayvim	  " vim recommended for full 256
 "colorscheme C64		        " c64 colors (blues)
 "colorscheme basic		      " dark bg with blues
 "colorscheme ibmedit		    " old ibm color, bright blue
