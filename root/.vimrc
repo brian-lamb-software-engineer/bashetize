@@ -1,12 +1,14 @@
 " .vimrc
+"
+" https://github.com/tpope/vim-pathogen a vim package manager
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+filetype plugin indent on                   " for pathogen
+
 syntax on
 
 "for centos5 systems might need the following to correct delete and backspace key usage
 "set term=builtin_xterm
-
-" https://github.com/tpope/vim-pathogen a vim package manager
-execute pathogen#infect()
-filetype plugin indent on                   " for pathogen
 
 " in vim, use :colorscheme   then tab key to see all available. Some good ones, solarized, antares, desert-256, c64, ibm,  many more. 
 " uncomment your favourite colorscheme here. (note that the color comments are for a .vimrc file, but for e.g. php/javascript files the colors will be slightly different, so you just have to load them to test them)
