@@ -1,10 +1,13 @@
 # Bashetize
 - This is a Turn-key bash configuration implementation
+  - Especially useful in multiple host environments where adding this level of customization to your bash user can be otherwise time consuming.  
+  - Allows consistency across hosts.  
+  - Easily change your `PS1` color, on each host, to help idendify the host your logged into (by color). (Root is red, by default, so that you never make a mistake not knowing your logged in as root)
 - Eases bash configuration
 - Jumpstarts your workflow
-- Most functionality is inherited, only a minor adjustment needed
+- Most functionality is inherited, only "very" minor adjustment needed
 - Currently configured for RHEL/CentOS/AWSLinux 
-- will also work for rootA
+- Intended for both root, and non root user
 
 ## Includes
 - global `.gitconfig`, which provides some nice eye candy to terminal use, git branch shows up on your PS1 prompt, includes branch, diff, jstatus color configurations, grep credential, sslverify and core customizations for e.g. autocrls, filemode, ignorecase, includes your name and email so you only have to configure it once, and not for every repo you pull down. 
@@ -37,13 +40,15 @@ There are two ways to run this.
 On the next login, it will auto install, as long as you dont have a ~/.bashrc.custom file
 
 ### Method 2 copy files directly to your user dir
-1. clone the package. 
-2. cd into the package
+1. As a standard non-root user, clone the package. 
+2. Navigate into the package
    `$ cd bashetize`
-3. Install the submodules `git submodule update --init`
-4. Run the install.sh script to copy the files into your home dir. 
-   - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
+3. Install the submodules 
+   `git submodule update --init`
+4. Run the `install.sh` script to copy the files into your home dir. 
+  - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
    `$ ./install.sh`. 
+   - If you are installing for the root user, `sudo -i` then `cd bashetize` again to get back to the repo, then run the `instal.sh` script, as the root user, from the location to which you cloned it to.  Since you will be logged in as `root`, it will copy the appropriate files to `/root`
 
 ### After installation for a given user
 1. 1. If your not using a system controlled by puppet, or one that doesnt source .bashrc.custom from the .bashrc file, ensure `~/.bashrc.custom` is sourced (in .bashrc normally) by adding the following lines to your .bashrc
@@ -53,19 +58,18 @@ On the next login, it will auto install, as long as you dont have a ~/.bashrc.cu
    fi
    ```
 2. update your username and email on `~/.gitconfig` 
-- Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4-6 lines to your desired colors.  E.g. change the word `BIGreen` to `BICyan`, etc..  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
+  - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4-6 lines to your desired colors.  E.g. change the word `BIGreen` to `BICyan`, etc..  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
 
 ## Notes
 - some of the more useful aliases
--- `l` which is `ls-la`, `h`, which is `cd ~/`, `u`, which is `cd ..`
--- `gd`, which is git diff, `gsh` which is `git status`, `gr` which is `git remote -v`
--- Read the `~/etc/.bash-alias` file to see them all, and add your aliases to this file. 
-- If you use other terminal colors, e.g.  mac terminal with a profile that changes colors, then the defaul colors might clash.  In this case you will want to either try to disable the mac terminal profile/theme, or switch the profile to "Pro" (ok to change font colors, but more importantly is a dark background).  Alternately to switching your terminal profile/theme you can edit the `~/etc/.bash-profile-global` file to source `~/etc/.bash-my-colors-plain` instead of `~/etc/.bash-my-colors`  
-- See .vimrc to adjust your vim colorscheme
-- If your a gnu screen user
--- To use the gnu screen layout, you will need a later version of screen, e.g. 4.2. make then compile that into your bin dir, and add an alias, or make then install the latest version of it onto your stack as sudo. The new custom config will work right away, use `screen -RA` to launch, and ctrl + a D to detach.
+  - `l` which is (`ls-la`), `h` (`cd ~`), `u` (`cd ..`), `gd` (`git diff`), `gsh` (`git status`), `gr` (`git remote -v`)
+  - Read the `~/etc/.bash-alias` file to see them all, and add your aliases to this file. 
+- If you use other terminal colors, e.g.  mac terminal with a profile that changes colors, then the defaul colors might clash.  There is an installation option that prompts you, asking if you want to use the recommended default colors.  You would want to select NO for this question. When you select NO, the entry on `~/etc/.bash-profile-global` that sources `~/etc/.bash-my-colors` will be automatically commented, and the entry `~/etc/.bash-my-colors-plain` is uncommented.  The `.bash-my-colors-plain` is still in a rudimentary form, and might be cleaned up at a later time. 
+- See `.vimrc` to adjust your vim colorscheme
+- If your a `gnu screen` user
+  - To use the `gnu screen` layout, you will need a later version of screen, e.g. `4.06.02`. Compile the binary using `make`, place into your bin dir, and add an alias, or `make` then install the latest version of it onto your stack as `sudo`. The new custom config will work right away, use `screen -RA` to launch, and `ctrl + a d` to detach.
+  - If you opt for the global `profile.d` installation option, the careful thing to do, as with any new `profile.d` script, is to restart the server after the file (or symlink) is in place, to ensure nothing behind the scenes (e.g. `nologin`, or non interactive) triggers it (`bashetize.sh` has been updated to check that its interactive to prevent this.), and that all your services have started correctly (`sudo chkconfig`, `sudo systemctl status -a`, `sudo journalctl -xn`, etc..).  You can also watch your system logs, e.g. `sudo tail -n 100 /var/log/messages` (The script uses `logger` to log some info there).  
+- Since this has mainly been tested on `Centos`, you will know if it runs or not by testing the `install.sh` script on your distro, but to use the `profile.d` method, you will want to make sure you have logger installed `which logger`, and verify the path vars, etc.. 
 
 ## known issues
-- When the directory `.ssh/cm_socket`, specified on .ssh/config, is copied, if the owner is other than the one who runs the copy command, rsync complains that it cand read into the directory.  This is acceptable because its empty anyway, and its only that dir which is needed, which does successfuly copy anyway. This happends because the `cm_socket` dir needs to be set to 700, so for now it is 700.  At a later time the `cm_socket can be set to 755, or 775, then the rsync command, or another command issued, can be adjusted to set it to 700 afgter the copy.   
-- If you opt for the global profile.d installation option, do a careful server restart test to see if any user with nologin, or non interactive shell is affected, e.g. that all your services start correctly.  You will know if your server doesnt startup and become accessible as fast as normal, or if you view your system logs to see if any services had any problem starting. A check has been added on the profile.d/bashetize.sh script to check that its being initiated from a terminal.  You can add additional checks if you like, e.g. if you want to check if a certain group is running it, etc
-- Since this is for Centos6, you will know if it runs or not by testing the install.sh script on your distro, but to use the profile.d method, you wil want to make sure you have logger installed `which logger`, and verify the path vars, etc.. 
+- When the directory `.ssh/cm_socket`, specified on `.ssh/config`, is copied, if the owner is other than the one who runs the copy command, `rsync` complains that it cand read into the directory.  This is acceptable because its empty anyway, and its only that dir which is needed, which does successfuly copy anyway. This happends because the `cm_socket` dir needs to be set to `700`, so for now it is `700`.  At a later time the `cm_socket` can be set to `755`, or `775`, then the `rsync` command, or another command issued, can be adjusted to set it to `700` after the copy.   
