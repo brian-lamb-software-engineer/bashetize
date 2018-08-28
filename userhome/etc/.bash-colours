@@ -1,6 +1,9 @@
 #a bash preconfiguration for getting terminals confortable
 #.bash_colours
 
+if [ -f ~/.dircolors ]; then
+    . ~/.dircolors
+fi
  #LS_COLORS
  #underlined cyan '4;36:
  #reverse grey '7;37:'

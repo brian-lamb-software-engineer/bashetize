@@ -16,12 +16,8 @@
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
 
-# ~/.dircolors/themefile (choose one, see ~/.dircolors)
-if [ -f ~/.dircolors/dircolors.256dark ]; then
-    eval $(gdircolors ~/.dircolors/dircolors.256dark)
-fi
-
 #TERMINAL COLOR (enable if TERM isnt defined on your system)
+# you can also yum install ncurses-term to support your term
 #if [ -e /usr/share/terminfo/x/xterm-256color ]; then
 #    export TERM='xterm-256color'
 #else

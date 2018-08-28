@@ -63,8 +63,26 @@ else
     BASHETIZE_PATH=./root
 fi
 
-# if dir existsthe files
+# if file exists copy intall the files
 if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
+
+    #  UPDATE CODE
+    # due to a recent update, .dircolors was changed, we need to remove the old code
+    # if .dircolors is a directory, then its the old setup, its now file
+    if [ -d ~/.dircolors ]; then
+        #one final check for an expected file
+        if [ -f ~/.dircolors/dircolors.256dark ]; then
+            read -p "Due to a recent update, your ~/.dircolors directory, will be renamed to ~/dircolors.old.  Please cancel to backup if you have customized anything in there"
+            mv ~/.dircolors ~/dircolors.old
+            echo "... will also deprecate dircolor entry from your ~/etc/.bash-profile-global and ~/etc/.bash-alias, and leave backups with a .old extension"
+            sed -i.old '/^# ~..dircolors.themefile/,+3d' $ETCFILES/.bash-profile-global;
+            sed -i.old '/^.\?if \[ -x \/usr\/bin\/dircolors ];/,/^.\?fi/d' $ETCFILES/.bash-alias
+        else
+            echo "~/.dircolors was found to be a directory, but didnt recognize the files into it.  In order for your dircolors files to install correctly backup your .dircolors, and create an empty ~/.dircolors folder"
+        fi
+
+    fi
+
     rsync -vrlp --no-perms --ignore-existing --exclude ".ssh/cm_socket/.gitignore" $BASHETIZE_PATH/ ~/
     echo "The files were installed, dont forget to check that .bashrc.custom is sourced from .bashrc"
 else
