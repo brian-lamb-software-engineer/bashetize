@@ -75,8 +75,16 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
             read -p "Due to a recent update, your ~/.dircolors directory, will be renamed to ~/dircolors.old.  Please cancel to backup if you have customized anything in there"
             mv ~/.dircolors ~/dircolors.old
             echo "... will also deprecate dircolor entry from your ~/etc/.bash-profile-global and ~/etc/.bash-alias, and leave backups with a .old extension"
+            # remove the former condition that eval'd the template theme
             sed -i.old '/^# ~..dircolors.themefile/,+3d' $ETCFILES/.bash-profile-global;
+            # remove the former condition that eval'd dircolors, and set alias's
             sed -i.old '/^.\?if \[ -x \/usr\/bin\/dircolors ];/,/^.\?fi/d' $ETCFILES/.bash-alias
+            # add sourcing of .dircolors to .bash-colours
+            sed -i.old 's/^#.bash_colours/& \
+            \
+            if [ -f ~\/.dircolors ]; then\
+                . ~\/.dircolors\
+            fi/' ~/etc/.bash-colours
         else
             echo "~/.dircolors was found to be a directory, but didnt recognize the files into it.  In order for your dircolors files to install correctly backup your .dircolors, and create an empty ~/.dircolors folder"
         fi
@@ -90,3 +98,4 @@ else
     
         #TODO add source of .bashrc.custom if doesnt exists, to .bashrc
 fi
+
