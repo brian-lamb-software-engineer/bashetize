@@ -10,3 +10,7 @@
 if [ -f ~/.dircolors/dircolors.256dark ]; then
     eval $(gdircolors ~/.dircolors/dircolors.256dark)
 fi
+
+# prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
+# Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
+export EDITOR=vim
