@@ -1,18 +1,18 @@
 [submodule "root/.vim/bundle/puppet"]
 	path = root/.vim/bundle/puppet
-	url = git://github.com/rodjek/vim-puppet.git
+	url = git@github.com:rodjek/vim-puppet.git
 [submodule "root/.vim/bundle/vim-pathogen"]
 	path = root/.vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
+	url = git@github.com:tpope/vim-pathogen.git
 [submodule "userhome/.vim/bundle/puppet"]
-	url = git://github.com/rodjek/vim-puppet.git
+	url = git://github.com:rodjek/vim-puppet.git
 	path = userhome/.vim/bundle/puppet
 [submodule "userhome/.vim/bundle/vim-pathogen"]
 	path = userhome/.vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
+	url = git@github.com:tpope/vim-pathogen.git
 [submodule "root/etc/dircolors"]
 	path = root/etc/dircolors
-	url = https://github.com/gibbling/dircolors.git
+	url = git@github.com:gibbling/dircolors.git
 [submodule "userhome/etc/dircolors"]
 	path = userhome/etc/dircolors
-	url = https://github.com/gibbling/dircolors.git
+	url = git@github.com:gibbling/dircolors.git
