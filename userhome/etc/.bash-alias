@@ -2,8 +2,11 @@
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 
-#defaul systet alias's 
+#default system alias's 
 #enable color support of ls and also add handy aliases
+
+# check mem usage
+alias mem="watch -n 5 free -m"
 
 #listing
 alias ll='ls -alF'
@@ -13,9 +16,12 @@ alias l='ls -la'
 alias lt='ll -tr'
 
 #misc
+alias ex="exit"
 alias hgs="history | grep sparse"
+alias si='sudo -i'
 alias sudo='sudo'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 
 #navigation
 alias c='clear' 
@@ -23,6 +29,7 @@ alias u='cd ..'
 alias h='cd' 
 
 #screen
+#alias screen="~/bin/screen"
 alias sl="screen -list"
 #run your screens like this, depending if you need to auto detach one or just reonn to a detached
 alias sra="screen -RA"
