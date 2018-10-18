@@ -5,8 +5,8 @@
 	path = root/.vim/bundle/vim-pathogen
 	url = git@github.com:tpope/vim-pathogen.git
 [submodule "userhome/.vim/bundle/puppet"]
-	url = git://github.com:rodjek/vim-puppet.git
 	path = userhome/.vim/bundle/puppet
+	url = git@github.com:rodjek/vim-puppet.git
 [submodule "userhome/.vim/bundle/vim-pathogen"]
 	path = userhome/.vim/bundle/vim-pathogen
 	url = git@github.com:tpope/vim-pathogen.git
