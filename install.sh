@@ -52,6 +52,11 @@ function offerUserColorChoice {
 }
 
 
+## 
+# first make sure submodules are init, since this is a common mistake, but a needed dependency.  With they arent init, its pretty easy to update --init afterwords, and run the install again safely. 
+git submodule update --init
+
+
 #root check
 #if [ `whoami` != root ]; then
 if [[ $EUID -ne 0 ]]; then
