@@ -1,31 +1,4 @@
-#default system alias's 
+#.dircolors
 
 # choose your dircolor theme here (see ~/etc/dircolors for a few themes to choose from)
-DIRCOLOR_FILE=~/etc/dircolors/dircolors.256dark
-DIRCOLOR_BIN=/usr/bin/dircolors
-
-if [ -f $DIRCOLOR_FILE ]; then
-        #enable color support of ls and also add handy aliases
-        if [ -x $DIRCOLOR_BIN ]; then
-
-            # test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-            #test -r ~/.dircolors2 && eval "$(dircolors -b ~/.dircolors2)" || eval "$(dircolors -b)"
-            # ~/.dircolors/themefile
-            # test -r ~/.dircolors &&  
-            eval $(dircolors $DIRCOLOR_FILE)
-
-
-            alias ls='ls --color=auto'
-            #alias dir='dir --color=auto'
-            #alias vdir='vdir --color=auto'
-
-            alias grep='grep --color=auto'
-            alias fgrep='fgrep --color=auto'
-            alias egrep='egrep --color=auto'
-
-        else
-            echo "warning,bin not found: $DIRCOLOR_BIN"
-        fi
-else
-    echo "warning, file not found: $DIRCOLOR_FILE"
-fi
+eval "$(dircolors ~/etc/dircolors/dircolors.256dark)"

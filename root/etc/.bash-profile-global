@@ -4,12 +4,11 @@
 #
 # load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
 . ~/etc/.bash-colours
-. ~/etc/.bash-my-colors
 
-# ~/.dircolors/themefile
-if [ -f ~/.dircolors/dircolors.256dark ]; then
-    eval $(gdircolors ~/.dircolors/dircolors.256dark)
-fi
+# For the following, use (or choose, during install) the plain config if you want to use your terminal profile colors instead, e.g. mac terminal profile.  Some 
+# prefer the bash configuration since it will work on virtually all linux systems. 
+#. ~/etc/.bash-my-colors-plain
+. ~/etc/.bash-my-colors
 
 # prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
 # Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 

@@ -1,9 +1,9 @@
 # Alias definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
+#alias gdircolors="dircolors"
 
 #default system alias's 
-#enable color support of ls and also add handy aliases
 
 # check mem usage
 alias mem="watch -n 5 free -m"
@@ -34,6 +34,7 @@ alias sl="screen -list"
 #run your screens like this, depending if you need to auto detach one or just reonn to a detached
 alias sra="screen -RA"
 alias srad="screen -RAD"
+#alias gruntscreenserve="screen -c /usr/local/bfsitetools/.screen_gruntserves"
 alias screen2col="screen -c ~/etc/.screen_2col_direct"
 
 #dev searching

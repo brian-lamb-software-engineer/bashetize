@@ -1,0 +1,5 @@
+# The following files are hardlinked in this directory, so that you only have to edit the one in ../../userhome/etc
+#.bash_colours
+#.bash-my-colours-plain
+#.bash_screen_x11
+#.bash-user-ls-colors
