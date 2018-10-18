@@ -43,9 +43,7 @@ On the next login, it will auto install, as long as you dont have a ~/.bashrc.cu
 1. As a standard non-root user, clone the package. 
 2. Navigate into the package
    `$ cd bashetize`
-3. Install the submodules 
-   `git submodule update --init`
-4. Run the `install.sh` script to copy the files into your home dir. 
+3. Run the `install.sh` script to copy the files into your home dir. (note the install script runs the submodule update --init automatically now)
   - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
    `$ ./install.sh`. 
    - If you are installing for the root user, `sudo -i` then `cd bashetize` again to get back to the repo, then run the `instal.sh` script, as the root user, from the location to which you cloned it to.  Since you will be logged in as `root`, it will copy the appropriate files to `/root`
