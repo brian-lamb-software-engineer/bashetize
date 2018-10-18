@@ -1,7 +1,32 @@
-#a bash preconfiguration for getting terminals confortable
-#.bash_colours
+#!/bin/bash
+# .bash-colours
+# a bash preconfiguration for getting terminals confortable
 
- #LS_COLORS
+##
+# load .dircolors
+# you can specify youre dircolors here
+DIRCOLOR_FILE=~/etc/dircolors/dircolors.256dark
+#DIRCOLOR_BIN=/usr/bin/dircolors
+if [ -f $DIRCOLOR_FILE ]; then
+    if [ -f ~/.dircolors ]; then
+        . ~/.dircolors
+    fi
+
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+
+else
+    echo "warning, $DIRCOLOR_FILE not found"
+
+    # alternatively, eval DIRCOLOR_BIN if exists
+fi
+
+##
+# LS_COLORS
  #underlined cyan '4;36:
  #reverse grey '7;37:'
  #bold pink '1;95:'
@@ -51,7 +76,6 @@ ResetColor="\[\e[00m\]"       # Text Reset
 
 #GOOD COLORS
 #echo -e "\\033[48;5;95;38;5;214mhello world\\033[0m"
-
 
 # Regular Colors
 Pink='\e[35;40m'
