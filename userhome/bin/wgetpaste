@@ -1,0 +1,6 @@
+# wgetpaste alternative
+# using sprunge.us since wgetpaste doesnt exist for centos, but the command is memoerablwe. 
+# pass this some data, and it will push it to sprunge.us
+#echo "${1}" | curl -F "sprunge=<-" http://sprunge.us | xclip
+#curl -F "sprunge=<-" http://sprunge.us | xclip
+curl -F "sprunge=<-" http://sprunge.us 
