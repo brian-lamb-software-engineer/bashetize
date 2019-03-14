@@ -97,10 +97,28 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
     fi
 
     rsync -vrlp --no-perms --ignore-existing --exclude ".ssh/cm_socket/.gitignore" $BASHETIZE_PATH/ ~/
-    echo "The files were installed, dont forget to check that .bashrc.custom is sourced from .bashrc"
+    echo "The files were installed"
+
+    if [ ! -f ~/.bashrc ]; then
+        touch ~/.bashrc
+    fi
+
+    echo "
+# Dont remove this entry
+# This file is because puppet will overwrite any entry on .bashrc except the include for .bashrc.cusom, so we put all our customization downstream of here
+# See ~/etc/* for the possible customizations on this, or see the bashetzie readme. 
+if [ -f ~/.bashrc.custom ]; then
+    . ~/.bashrc.custom
+fi" >> ~/.bashrc;
+   
+    #CANT GET AUTO SOURCING TO WORK YET HERE
+    #lets source this file, need to do this before handing control over to the scripot
+    #BASH_ENV="$HOME/.bashrc.custom" "$HOME/bin/auto-ssh-id"
+    #~/.bashrc.custom
+
+    #echo "Dont forget to check that .bashrc.custom is sourced from .bashrc"
+
 else
         echo "Could not locate custom bash file at $BASHETIZE_PATH/.bashrc.custo.  Did you run the install script from the correct location?  If so, in the script is BASHETIZE_PATH var set correctly?"
-    
-        #TODO add source of .bashrc.custom if doesnt exists, to .bashrc
 fi
 
