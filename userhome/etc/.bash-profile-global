@@ -13,6 +13,9 @@
 # you may only need one git branch include here, depending if your using __git_ps1 or $(parse_git_branch) on your .bash-my-colors file when constructing your PS1
 . ~/etc/.git-prompt
 
+# lets load our ssh agent, to make things easier on our logging in to all the services
+. ~/bin/ssh-agent
+
 # PATH extensions
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
