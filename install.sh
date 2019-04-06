@@ -68,7 +68,7 @@ else
     BASHETIZE_PATH=./root
 fi
 
-# if file exists copy intall the files
+# if .bashrc.custom exists, ready to copy install the files
 if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
 
     #  UPDATE CODE
@@ -103,13 +103,20 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
         touch ~/.bashrc
     fi
 
-    echo "
+    # add source line, if not already there
+    if ! grep -q ".bashrc.custom" ~/.bashrc; then
+       # echo "skipping adding .bashrc.custom, since its found to exist!"
+    #else
+        echo ".. adding .bashrc.custom your .bashrc"
+        echo "
 # Dont remove this entry
 # This file is because puppet will overwrite any entry on .bashrc except the include for .bashrc.cusom, so we put all our customization downstream of here
 # See ~/etc/* for the possible customizations on this, or see the bashetzie readme. 
 if [ -f ~/.bashrc.custom ]; then
     . ~/.bashrc.custom
 fi" >> ~/.bashrc;
+
+    fi
    
     #CANT GET AUTO SOURCING TO WORK YET HERE
     #lets source this file, need to do this before handing control over to the scripot
