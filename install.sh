@@ -96,8 +96,17 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
 
     fi
 
+    if [ -f ~/etc/.screen_layout ]; then
+    echo ".. are we we even running?"
+        EDITFILE_REGEX='^term.*screen-256color-bce'; 
+        sed -i -e "s/${EDITFILE_REGEX}/term xterm-256color/g" ${ETCFILES}/.screen_layout
+    fi
+
     rsync -vrlp --no-perms --ignore-existing --exclude ".ssh/cm_socket/.gitignore" $BASHETIZE_PATH/ ~/
     echo "The files were installed"
+
+
+
 
     if [ ! -f ~/.bashrc ]; then
         touch ~/.bashrc
