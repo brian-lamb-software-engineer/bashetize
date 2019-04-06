@@ -9,8 +9,11 @@ if [ -f ~/etc/.bash-alias ]; then
     source ~/etc/.bash-alias
 fi
 
-#for screen, enable the display env var 
-if [ -f ~/etc/.bash-screen-x11 ]; then
-    echo $DISPLAY > $HOME/.display.env
+#if screen 
+if [ ! -z $STY ]; then
+  #for screen, enable the display env var 
+  if [ -f ~/etc/.bash-screen-x11 ]; then
+      echo $DISPLAY > $HOME/.display.env
     source ~/etc/.bash-screen-x11
+   fi
 fi
