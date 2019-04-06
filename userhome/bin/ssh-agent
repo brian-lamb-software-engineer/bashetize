@@ -1,37 +1,42 @@
+#!/bin/bash
 # ssh-agent
 # This script enables ssh agent so you can use ssh-add after to add your identitys. 
 # resource url for some help info https://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-a-password-prompt
 
-echo ".. starting ssh agent."
-echo ".. this is set up, for security purposes, where passphrases will be needed to be reset, after each reboot"
-echo ".. you are using passphrases right?"
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-    eval `ssh-agent`
-      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+# if screen, we dont need to run this again
+if [ -z $STY ]; then
+  echo ".. starting ssh agent."
+  echo ".. this script is set up, with security in mind, where passphrases will be needed to be reset, after each reboot"
+  echo ".. you are using passphrases right?"
+  if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+      eval `ssh-agent`
+    #moved these two lines her, as i felt they were better only ran if hasnt already been added, duh..
+    ssh-add -l > /dev/null || ssh-add
+    echo ".. default key added, you can now ssh-add ~/.ssh/your-other-keys_rsa anytime"
+     ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+    # initial attempts, for the record
+  #if [ -z "$SSH_AUTH_SOCK" ]; then
+  #    eval `ssh-agent -s`  
+  #    ssh-add
+  #fi
+
+  #you will not have your agent pid, which means it will be now running
+  #echo ".. if pid above, then you may now run 'ssh-add ~/.ssh/yourkey.pub' for any key you need."
+  #read -p "The first one will be attempted next.  If it asks you for a pass" 
+
+  # now your safe to add any ids you like, the first one this script will add for you
+  #use ssh-add -K when on mac, so it can add passphrase to keychain
+  #ssh-add ~/.ssh/id_rsa.pub
+
+  # Upon logout, we want this process killed, so i prefer to do that here, instead of the alternate means. 
+  # Alternately, create a .bash_logout script, with the following code on it. 
+  #
+  #if [ -n "$SSH_AUTH_SOCK" ] ; then
+  #    eval `/usr/bin/ssh-agent -k`
+  #fi
+  #
+  #kill it from here, easier..
+  trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0
 fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l > /dev/null || ssh-add
-echo ".. default key added, you can now ssh-add ~/.ssh/your-other-keys_rsa anytime"
-# initial attempts, for the record
-#if [ -z "$SSH_AUTH_SOCK" ]; then
-#    eval `ssh-agent -s`  
-#    ssh-add
-#fi
-
-#you will not have your agent pid, which means it will be now running
-#echo ".. if pid above, then you may now run 'ssh-add ~/.ssh/yourkey.pub' for any key you need."
-#read -p "The first one will be attempted next.  If it asks you for a pass" 
-
-# now your safe to add any ids you like, the first one this script will add for you
-#use ssh-add -K when on mac, so it can add passphrase to keychain
-#ssh-add ~/.ssh/id_rsa.pub
-
-# Upon logout, we want this process killed, so i prefer to do that here, instead of the alternate means. 
-# Alternately, create a .bash_logout script, with the following code on it. 
-#
-#if [ -n "$SSH_AUTH_SOCK" ] ; then
-#    eval `/usr/bin/ssh-agent -k`
-#fi
-#
-#kill it from here, easier..
-trap 'test -n "$SSH_AUTH_SOCK" && eval `/usr/bin/ssh-agent -k`' 0

@@ -1,7 +1,6 @@
 # .bash_profile extended remote profile configs for multi server use
 # Note, since profile, this loads only once, for login shells only, to prepare
 # for the command prompt
-#
 # load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
 . ~/etc/.bash-colours
 
@@ -13,21 +12,24 @@
 # you may only need one git branch include here, depending if your using __git_ps1 or $(parse_git_branch) on your .bash-my-colors file when constructing your PS1
 . ~/etc/.git-prompt
 
-# lets load our ssh agent, to make things easier on our logging in to all the services
-. ~/bin/ssh-agent
+# for Gnu Screen, things arent needed twice, add those inside this block
+if [ -z $STY ]; then
+  # lets load our ssh agent, to make things easier on our logging in to all the services
+  . ~/bin/ssh-agent
 
-# PATH extensions
-PATH=$PATH:$HOME/.local/bin:$HOME/bin
-export PATH
+  # PATH extensions
+  PATH=$PATH:$HOME/.local/bin:$HOME/bin
+  export PATH
 
-#TERMINAL COLOR (enable if TERM isnt defined on your system)
-# you can also yum install ncurses-term to support your term
-#if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-#    export TERM='xterm-256color'
-#else
-#    export TERM='xterm-color'
-#fi
+  #TERMINAL COLOR (enable if TERM isnt defined on your system)
+  # you can also yum install ncurses-term to support your term
+  #if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+  #    export TERM='xterm-256color'
+  #else
+  #    export TERM='xterm-color'
+  #fi
 
-# prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
-# Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
-export EDITOR=vim
+  # prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
+  # Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
+  export EDITOR=vim
+fi
