@@ -4,24 +4,12 @@
 
 ##
 # load .dircolors
-# you can specify youre dircolors here
-DIRCOLOR_FILE=~/etc/dircolors/dircolors.256dark
 #DIRCOLOR_BIN=/usr/bin/dircolors
+DIRCOLOR_FILE="~/.dircolors"
 if [ -f $DIRCOLOR_FILE ]; then
-    if [ -f ~/.dircolors ]; then
-        . ~/.dircolors
-    fi
-
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-
+    . ~/.dircolors
 else
     echo "warning, $DIRCOLOR_FILE not found"
-
     # alternatively, eval DIRCOLOR_BIN if exists
 fi
 

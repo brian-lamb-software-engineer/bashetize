@@ -1,9 +1,5 @@
-# Alias definitions.
+# Alias definitions, default system alias's 
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-#alias gdircolors="dircolors"
-
-#default system alias's 
 
 # check mem usage
 alias mem="watch -n 5 free -m"
@@ -29,7 +25,6 @@ alias u='cd ..'
 alias h='cd' 
 
 #screen
-#alias screen="~/bin/screen"
 alias sl="screen -list"
 #run your screens like this, depending if you need to auto detach one or just reonn to a detached
 alias sra="screen -RA"
@@ -37,11 +32,11 @@ alias srad="screen -RAD"
 #alias gruntscreenserve="screen -c /usr/local/bfsitetools/.screen_gruntserves"
 alias screen2col="screen -c ~/etc/.screen_2col_direct"
 
-#dev searching
-# @TODO any good awk's alias's we can put here?
+# Searching
 alias grin='grep -rinsf  /dev/stdin . <<<'
-#alias grin='grep -Rinsf  - . <<<'
 alias fin="find ./* -name "
+#alias grin='grep -Rinsf  - . <<<'
+# @TODO any good awk's alias's we can put here?
 
 #looking to see if servers ports are actively open
 alias netstatt="netstat -tulpn"
@@ -66,6 +61,7 @@ alias gl-s="git log --stat"
 alias gd="git diff -b --color" 
 alias glc="git diff --name-only --diff-filter=U"
 alias gr="git remote -v"
+alias gpgp="git pull && git push"
 #best way to do a dry run for merge, (dont ever merge on production)
 # then run git merge --abort.  
 #only problem causes changes in working tree
@@ -73,5 +69,5 @@ alias gr="git remote -v"
 
 #RESTART HOST
 alias restart="echo 'The system will execute a graceful reboot n 15 seconds.  Press ctrl+c if you want to cancel.'; 
-    sleep 10; sudo reboot;"
+    sleep 10; systemctl reboot;"
 
