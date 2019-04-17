@@ -4,10 +4,11 @@
 
 ##
 # load .dircolors
+
 #DIRCOLOR_BIN=/usr/bin/dircolors
-DIRCOLOR_FILE="~/.dircolors"
+DIRCOLOR_FILE=".dircolors"
 if [ -f $DIRCOLOR_FILE ]; then
-    . ~/.dircolors
+   . $DIRCOLOR_FILE
 else
     echo "warning, $DIRCOLOR_FILE not found"
     # alternatively, eval DIRCOLOR_BIN if exists
