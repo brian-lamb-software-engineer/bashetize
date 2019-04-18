@@ -3,42 +3,16 @@
 # dependency: coreutils, and a dircolors package found as git submodule in bashetize package
 # note, this had depended on an alias on .dircolors for gdircolrs.  this is deprecated behaviour
 #     now, leaving here until next few commits.
+#THEMEFILE="/root/etc/dircolors/dircolors.256dark"
 
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+#if [[ "$OSTYPE" == "linux-gnu" ]]; then
     ### EL (RHEL) ###
     # Load dircolors library
-    eval $(dircolors ~/etc/dircolors/dircolors.256dark)
+    eval "$(dircolors ~/etc/dircolors/dircolors.256dark)"
     # Enable alias ls to GNU's alias's now, (the --color=auto setting) (GNU portion is for OSx)
-    alias ls='ls --color=auto'
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    ### MAC-OSX Solutions using GNU ###
-    ##      https://github.com/seebi/dircolors-solarized/issues/10#issuecomment-2641754
-    ##      brew install coreutils
-    ##      if you have a .dircolors, error currently, once using this, its likely this is whats needed
-    ##      They are installed with g as a prefix
-    ##      In profile chain somewhere, souce the /usr/ocal/Cellar/coreutils/8.12/aliases
-    ##      Load GNU Alias ##
-    ##      - source alias
-    ##          . usr/local/Cellar/coreutils/8.12/aliases
-    ##      - enable alias ls to GNU's alias's now, (the --color=auto setting)
-    ##      - add alias to coreutils before the ls alias
-    ##      Load GNU Aliases
-    ##      . /usr/local/Cellar/coreutils/8.12/aliases
-    ##
-    ##      - add alias to coreutils before the ls alias
-    ##      This wasnt working yet, after brew install, but dircolors is working without it, so leaving here for reference.
-    ##      . /usr/local/Cellar/coreutils/8.12/aliases
-    ##
-    ##      Choose your dircolor theme here (see ~/etc/dircolors for a few themes to choose from)
-    # Load dircolors library
-    #alias gdircolors="dircolors"
-    eval "$(gdircolors ~/etc/dircolors/dircolors.256dark)"
-    # Enable alias ls to GNU's alias's now, (the --color=auto setting), this might not be needed if configured through this, enable this (as gls), alt4ernatively to ls, only if you need to, e.g. if you dont see colors on your dirs.
-    alias ls='gls --color=auto'
-    # Enable alias ls to GNU's alias's now, (the --color=auto setting) (GNU portion is for OSx)
-fi
+    alias ls="ls --color=auto"
+#fi
 
-###
 # LEAVE ENABLED, BY PREFERENCE, FOR ALL BUILDS
 #alias dir='dir --color=auto'
 #alias vdir='vdir --color=auto'

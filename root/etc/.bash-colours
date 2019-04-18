@@ -3,14 +3,16 @@
 # a bash preconfiguration for getting terminals confortable
 
 ##
-# load .dircolors
+DIRCOLOR_FILE="${HOME}/.dircolors"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  DIRCOLOR_FILE="${HOME}/etc/.dircolors.osx";
+fi
 
-#DIRCOLOR_BIN=/usr/bin/dircolors
-DIRCOLOR_FILE=".dircolors"
-if [ -f $DIRCOLOR_FILE ]; then
-   . $DIRCOLOR_FILE
+# load .dircolors
+if [ -f "${DIRCOLOR_FILE}" ]; then
+    . "${DIRCOLOR_FILE}"
 else
-    echo "warning, $DIRCOLOR_FILE not found"
+    echo "warning, our $DIRCOLOR_FILE not found"
     # alternatively, eval DIRCOLOR_BIN if exists
 fi
 
