@@ -1,19 +1,41 @@
-# .bashrc extended remote profile configs for multi server use
-# Note, since rc and not profile, this loads every time, even for interactive non-login shells, e.g. for ssh command access
+# Path and common settings go here. e.g. things that would not be inherited by
+#  subshells automatically, such as shells and aliases.
+# Sourced by .bash_profile.
+# .bashrc executes for each new terminal.  Mac is an exception, macs teminal
+#  calls the .bash_profile instead.
+# This is also executed when you type in /bin/bash in the terminal to launch.
+# .bashrc is executed for interactive non-login shells. Unfortunately it still
+#  loads every time for things like scp, etc.. Its necessary to place your code
+#  in the correct place on  this file.
 #
+# Put all the commands on top here that should run regardless of whether this
+# is an INTERACTIVE OR NON-INTERACITIVE SHELL.
+
+
+# test if the prompt var is not set
+if [ -z "$PS1" ]; then
+    # prompt var is not set, so this is *not* an interactive shell
+    return
+fi
+# put only INTERACTIVE SHELL stuff below here.  e.g. Put all commands here
+#  that should run on login only.
+
 #. ~/bin/.git_push_scripts
-#
+
 # alias has been put to a separate file
 # note that there are git alias that need to source .bash_git_completion prior.
 if [ -f ~/etc/.bash-alias ]; then
     source ~/etc/.bash-alias
 fi
 
-#if screen 
+# lets load our ssh agent, to make things easier on our logging in to all the services
+. ~/bin/ssh-agent
+
+#if screen
 if [ ! -z $STY ]; then
-  #for screen, enable the display env var 
+  #for screen, enable the display env var
   if [ -f ~/etc/.bash-screen-x11 ]; then
       echo $DISPLAY > $HOME/.display.env
-    source ~/etc/.bash-screen-x11
-   fi
-fi
+      source ~/etc/.bash-screen-x11
+  fi
+
