@@ -1,86 +1,83 @@
 ##
 # .bash-my-colors
-# A PS1 adjustment script
-# sourced somewhere in your bash_profile chain.
+# A PS1 color adjustment script
+# sourced in etc/.bash-profile-global by default
 
-#########################
-# Adjust your colors here, set different on each server to differ
-# see file etc/.bash_colours as reference
-# e.g. my_under@my_host or through screen (tmux, etc) my_base@my_screen-host  
+###########################
+# Adjust colors here
+# Set this different on each server
+# see file etc/.bash_colours for color chart reference
+# e.g. my_under@my_host or through screen (tmux, etc) my_base@my_screen-host
 # By Default, try to use the following as a guideline, customizing from there
-#Personal=Green
-#Dev=Green
-#Stage=Yellow
-#PRE-PROD=Red
-#PROD=BRed
-#########################
-MY_BASE="${IGreen}"
-MY_BASE_UNDER="${UGreen}"
-MY_AT="${BIWhite}"
-MY_HOST="${BIGreen}"
-MY_SCREEN_HOST="${BIGreen}"
-#########################
+# e.g. Even when your in screen, unless this is actually the host your
+#    running screen on, you need to use the "MY_HOST" var to adjust the PS1
+#    host color.
+############################
+MY_BASE="$BIGreen"
+MY_AT="$IGreen"
+MY_HOST="$BIYellow"
+MY_SCREEN_HOST="$UYellow"
+############################
+# e.g. #Personal base = Cyan
+# Dev hosts = Green
+# Stage hosts = Yellow
+# PRE-PROD hosts = Red
+# PROD hosts = BRed
+############################
 
-##
+###
 # Build PS1
-# Normally only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
-TERM_PROMPT="${MY_BASE_UNDER}"
+# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
+##
+# 1st PART OF THE STRING IS HOSTNAME OR PATH?
 CURRENT_LOCATION=" ${MY_BASE}\w"
+# 2ND PART OF THE STRING IS MY_AT
+# 3RD  PART OF THE STRING is MY_HOST or MY_SCREEN_HOST
+# 4TH PART OF STRING IS GIT BRANCH
 BRANCH='$(__git_ps1 " [%s]")'
-PROMPT="${MY_BASE}\$" 
+# 5TH PART OF STRING IS THE DOLLAR SIGN
+PROMPT="${MY_BASE}\$"
+# 6TH PART OF STRING IS THE LAST PART RESETS CLI COLOR BACK
 TEXT="${ResetColor} "
+<<<<<<< HEAD
 
 # Following two kept here for ease of adjustment (instead of in conditional)
 # Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
 TERM_BASE="${MY_BASE_UNDER}\u${MY_AT}@${MY_HOST}\h"
 SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_SCREEN_HOST}\h"
+=======
+##
+>>>>>>> 9a1ffbfdb3502a4d7fe4fd6f12112f8c3d9a89a3
 
 ###
-# No need to adjust anything below normally. 
-#
-# Adjust PS1 below for one of two scenarios below. (Choose A if your not 
-#   sure, choose B for a more proper setup, if your using screen on it) 
-#
-# For a jump host that you use screen in, the bold is the nicer output, hence why 
-# it is used on the screen (else) portion of the following condntion. 
-# This helps you notice if you've actually made your last screen yet, by being
-# underlined still. 
-#
-# To adjust correctly; If this is your end destination then you only need your
-# nice color.  i.e. comment the conditional below in favor of just having
-# one PS1 entry everytime you land here, no matter screened or not.
-#
-# Choose an option below, comment out the other Option's usage altogether.
-#
-# a) Option A, Always use best color
-# no editing needed
-# PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
+#Only need to adjuwt below if you want to manipulate your string at all.
+TERM_BASE="$MY_BASE\u$MY_AT@$MY_HOST\h"
+TERM_BASE="$TERM_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT"
+SCREEN_BASE="$MY_BASE\u$MY_AT@$MY_SCREEN_HOST\h"
+SCREEN_BASE="$SCREEN_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT"
+# terminal (non screen colors)
+#TERM_PROMPT="${MY_BASE_UNDER}"
+####
 
-# b) Option B, Use the non screen color firs,t then when screened use the screen color. 
-# Always run 'screen -RA', or screen-RAD if your wanting to detach it first incase you
-# have switched consoles. The -R switch is key to keeping any alignment you may have
-# had on the screen splits, through a jump, prior to disconnect, when using split 
-# vertical screens 
+###
+# No need to adjust anything below normally.
 #
-if [ -z $STY ]
-then
+# For a jump host that you use screen in, the bold is the nicer output, hence why
+# it is used on the screen (else) portion of the following condition.
+# This helps you notice if you've actually made your last screen(within a screen) yet, by
+# being # underlined still.
+if [ -z $STY ]; then
     # Default tty prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file. 
-    # Example of using git_parse_branch 
-    # export PS1=$TERM_BASE$CURRENT_LOCATION$IBlack$(git_parse_branch)$PROMPT$TEXT
-    # Example of using __git_ps1
-    export PS1=$TERM_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
+    export PS1=$TERM_BASE
     # an alternate PS1 for this scenario
     # PS1="{$TERM_PROMPT}{$BRANCH}$White \$"
 else
     #screen prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file.
-    export PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
     #export PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$(git_parse_branch)$PROMPT$TEXT
+    export PS1=$SCREEN_BASE
 fi
-#
+
+##
 # For FreeBSD and Mac, dircolors
 # enables colored output for dirs
 export CLICOLOR=1

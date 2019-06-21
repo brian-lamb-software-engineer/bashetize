@@ -71,3 +71,10 @@ alias gpgp="git pull && git push"
 alias restart="echo 'The system will execute a graceful reboot n 15 seconds.  Press ctrl+c if you want to cancel.'; 
     sleep 10; systemctl reboot;"
 
+#PUPPET STUFF
+# puppet agent 
+alias pa="sudo /usr/local/bin/puppet agent" 
+# puppet parser validator
+alias ppv="/usr/local/bin/puppet parser validate" 
+#deploy
+alias pcd="puppet-code deploy -w -l debug"

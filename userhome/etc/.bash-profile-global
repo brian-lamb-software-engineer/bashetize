@@ -1,19 +1,19 @@
 # .bash_profile extended remote profile configs for multi server use
-# Note, since profile, this loads only once, for login shells only, to prepare
-# for the command prompt
-# load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them, 
+# Profile is only sourced once for login shells, which prepares
+#  for the command prompt.
+# Caveat; Mac runs this at each new terminal prompt, instead of .bashrc.
+# Environment settings go here, so they are given sane initial defaults.
+#
+# load color vars.  This is needed on .bashrc where you want to be sourcing a personal color file for it defining the tty with them,
 . ~/etc/.bash-colours
 
-# For the following, use (or choose, during install) the plain config if you want to use your terminal profile colors instead, e.g. mac terminal profile.  Some 
-# prefer the bash configuration since it will work on virtually all linux systems. 
+# For the following, use (or choose, during install) the plain config if you want to use your terminal profile colors instead, e.g. mac terminal profile.  Some
+# prefer the bash configuration since it will work on virtually all linux systems.
 #. ~/etc/.bash-my-colors-plain
 . ~/etc/.bash-my-colors
 
 # you may only need one git branch include here, depending if your using __git_ps1 or $(parse_git_branch) on your .bash-my-colors file when constructing your PS1
 . ~/etc/.git-prompt
-
-# lets load our ssh agent, to make things easier on our logging in to all the services
-. ~/bin/ssh-agent
 
 # for Gnu Screen, things arent needed twice, add those inside this block
 if [ -z $STY ]; then
@@ -29,7 +29,12 @@ if [ -z $STY ]; then
   #    export TERM='xterm-color'
   #fi
 
-  # prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
-  # Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
+  # prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it.
+  # Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e.
   export EDITOR=vim
+fi
+
+if [ -f ~/.puppetlabs/token ]; then
+    echo ".. exporting your puppetlabs token to Environment as TOKEN"
+    export TOKEN=`cat ~/.puppetlabs/token`
 fi
