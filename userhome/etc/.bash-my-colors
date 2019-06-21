@@ -23,22 +23,17 @@ MY_SCREEN_HOST="${BIGreen}"
 
 ##
 # Build PS1
-# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
-#
-# terminal (non screen colors)
+# Normally only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
 TERM_PROMPT="${MY_BASE_UNDER}"
-#
-# build PS1s
 CURRENT_LOCATION=" ${MY_BASE}\w"
 BRANCH='$(__git_ps1 " [%s]")'
 PROMPT="${MY_BASE}\$" 
 TEXT="${ResetColor} "
-#
+
 # Following two kept here for ease of adjustment (instead of in conditional)
 # Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
 TERM_BASE="${MY_BASE_UNDER}\u${MY_AT}@${MY_HOST}\h"
 SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_SCREEN_HOST}\h"
-
 
 ###
 # No need to adjust anything below normally. 
@@ -91,4 +86,3 @@ fi
 export CLICOLOR=1
 # color configuration for dirs
 export LSCOLORS=GxFxCxDxBxegedabagaced
-#
