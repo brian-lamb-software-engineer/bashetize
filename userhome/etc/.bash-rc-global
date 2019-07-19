@@ -38,4 +38,4 @@ if [ ! -z $STY ]; then
       echo $DISPLAY > $HOME/.display.env
       source ~/etc/.bash-screen-x11
   fi
-
+fi

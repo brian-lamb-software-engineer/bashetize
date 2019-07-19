@@ -39,15 +39,7 @@ BRANCH='$(__git_ps1 " [%s]")'
 PROMPT="${MY_BASE}\$"
 # 6TH PART OF STRING IS THE LAST PART RESETS CLI COLOR BACK
 TEXT="${ResetColor} "
-<<<<<<< HEAD
-
-# Following two kept here for ease of adjustment (instead of in conditional)
-# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
-TERM_BASE="${MY_BASE_UNDER}\u${MY_AT}@${MY_HOST}\h"
-SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_SCREEN_HOST}\h"
-=======
 ##
->>>>>>> 9a1ffbfdb3502a4d7fe4fd6f12112f8c3d9a89a3
 
 ###
 #Only need to adjuwt below if you want to manipulate your string at all.
