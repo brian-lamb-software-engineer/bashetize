@@ -12,7 +12,13 @@
 
 # load git prompt.  Thus might rarely be used for root, but it wasd disabled for root shortafter package created, then now theres a reason to keep it enabled for some root repos. 
 . ~/etc/.git-prompt
+ 
+if [ -z $STY ]; then
+  # PATH extensions
+  PATH=$PATH:$HOME/.local/bin:$HOME/bin
+  export PATH 
 
-# prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
-# Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
-export EDITOR=vim
+  # prevents .vimrc config from affecting vi, e.g. if you run crontab -e, it uses vi by default, and the .vimrc defines params that arent available to it. 
+  # Note, if you run sudo crontab -e, instead of directly from root, you will still get the issue, you need to invoke this .bashrc by running it as sudo -i crontab -e. 
+  export EDITOR=vim
+fi
