@@ -18,7 +18,6 @@ alias si='sudo -i'
 alias sudo='sudo'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-
 #navigation
 alias c='clear' 
 alias u='cd ..' 
@@ -62,6 +61,7 @@ alias gd="git diff -b --color"
 alias glc="git diff --name-only --diff-filter=U"
 alias gr="git remote -v"
 alias gpgp="git pull && git push"
+alias gagc="git add . && gsh && git commit -a"
 #best way to do a dry run for merge, (dont ever merge on production)
 # then run git merge --abort.  
 #only problem causes changes in working tree
