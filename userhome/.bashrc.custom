@@ -1,12 +1,34 @@
 #.bashrc.custom
-#
-# To bashitize, include the follwing two global files in ~/etc
-if [ -f $HOME/etc/.bash-rc-global ]; then
-    . $HOME/etc/.bash-rc-global
-fi
-if [ -f $HOME/etc/.bash-profile-global ]; then
-    . $HOME/etc/.bash-profile-global
-fi
-##
-# Add your customizations to one of the above two files, or their children, to keep things clean.
-#
+
+# TEST IF INTERACTIVE SHELL OR NOT
+case "$_" in
+  *i*)
+    # shell IS INTERACTIVE SHELL 
+    # e.g. Put all interactive commands here  
+    #    if [ -r  ~/.bashrc ]; then  
+    #  . ~/.bashrc; 
+    #fi 
+    # To bashitize, include the follwing two global files in ~/etc 
+    # Add your customizations to one of the above two files, or their children, to keep things clean.
+    #
+    # To bashitize, include the follwing two global files in ~/etc
+    #bashrc customizations go here
+    if [ -f ~/etc/.bash-rc-global ]; then
+      . ~/etc/.bash-rc-global
+    fi
+    # profile customizations go here
+    if [ -f ~/etc/.bash-profile-global ]; then
+      . ~/etc/.bash-profile-global
+    fi
+    ;;
+  *) # shell is NOT INTERACTIVE
+    # FOR SCP, ETC.. E.g. wont source them when scp, etc...
+esac
+
+#Was supposed to check if interactive or not. wasnt working right.  
+#if [ -z "$PS1" ]; then
+  #echo "this was supposed to test if user is interactive"
+  #return;
+#else
+# prompt var is not set, so this is * not* an interactive shell
+#fi
