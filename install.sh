@@ -97,8 +97,7 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
     fi
 
     if [ -f ~/etc/.screen_layout ]; then
-    echo ".. are we we even running?"
-        EDITFILE_REGEX='^term.*screen-256color-bce'; 
+        EDITFILE_REGEX='^term.*screen-256color'; 
         sed -i -e "s/${EDITFILE_REGEX}/term xterm-256color/g" ${ETCFILES}/.screen_layout
     fi
 
