@@ -1,31 +1,51 @@
 #.bashrc.custom
-#if [ -z "$PS1" ]; then
-  #echo "this was supposed to test if user is interactive"
-  #return;
-#else
-  # prompt var is not set, so this is *not* an interactive shell
-#fi
 
-#TEST IF INTERACTIVE SHELL OR NOT
+# TEST IF INTERACTIVE SHELL OR NOT
+# Test for presense of option "i" in the $- flag
+#UNIX FAQ 1993
+#case "$_" in # wouldnt load bash configs for normal user  this way
 case "$-" in
-  *i*)
-    # shell IS INTERACTIVE SHELL
-    # e.g. Put all interactive commands here
-    #if [ -r  ~/.bashrc ]; then
-    #  . ~/.bashrc;
-    #fi
+  *i*) # shell IS INTERACTIVE SHELL
+
     # To bashitize, include the follwing two global files in ~/etc
-  # Add your customizations to one of the above two files, or their children, to keep things clean.
-  #
-    echo "sourcing of .bash-rc-global and .bash-rc-profile"
-    if [ -f  ~/etc/.bash-rc-global ]; then
-      . ~/etc/.bash-rc-global;
+    # Add your customizations to one of the above two files, or their children, to keep things clean.
+
+    # load bashrc customization file
+    if [ -f ~/etc/.bash-rc-global ]; then
+      . ~/etc/.bash-rc-global
     fi
-    if [ -f ~/etc/.bash-profile-global ];then
+    # load profile customization file
+    if [ -f ~/etc/.bash-profile-global ]; then
       . ~/etc/.bash-profile-global
     fi
-     ;;
-
-    *) # shell is NOT INTERACTIVE
-       # FOR SCP, ETC.. E.g. wont source them when scp, etc..
+    ;;
+  *) # shell is NOT INTERACTIVE
+    # FOR SCP, ETC.. E.g. wont source them when scp, etc...
 esac
+
+## Alternate, test for terminal
+#fd=0 # stdin
+#if [[ -t "$fd" || -p /dev/stdin ]]
+#then
+#  #unfortunately scp is getting here
+#  #echo interactive
+#else
+#  #echo non-interactive
+#fi
+
+## Alternate - common suggested
+# if [ -v PS1  ]bash 4.2+
+#if [ -z $PS1 ] # no prompt?
+#then
+#    # non-interactive
+#else
+#    #interactive
+#fi
+
+## Alternate - had issues with in the past
+#if [ -z "$PS1" ]; then
+# echo "this was supposed to test if user is interactive"
+  #return;
+#else
+# prompt var is not set, so this is * not* an interactive shell
+#fi
