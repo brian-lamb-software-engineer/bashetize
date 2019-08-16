@@ -1,9 +1,0 @@
-#!/bin/bash
-#
-# instances-to-tsv
-# a script to put a list is instances to a specified tsv file
-
-FILENAME=$1
-
-aws ec2 describe-instances --output text --query 'Reservations[*].Instances[*].[InstanceId, InstanceType, ImageId, State.Name, LaunchTime, Placement.AvailabilityZone, Placement.Tenancy, PrivateIpAddress, PrivateDnsName, PublicDnsName, [Tags[?Key==`Name`].Value] [0][0], [Tags[?Key==`purpose`].Value] [0][0], [Tags[?Key==`environment`].Value] [0][0], [Tags[?Key==`team`].Value] [0][0] ]' > ${FILENAME}.tsv
-
