@@ -90,6 +90,17 @@ set wildmenu			                          " visual autocompletet for command menu
 set lazyredraw			                        " redraw only when we need to
 set showmatch			                          " highlight matching paren
 
+"---- vim lightline plugin --------------------"
+"https://github.com/itchyny/lightline.vim
+"wombat
+"jellybeans
+"one
+"landscape
+"solarized dark
+let g:lightline = {
+      \ 'colorscheme': 'landscape',
+            \ }
+
 
 
 "------------------Split Management-------------------"
