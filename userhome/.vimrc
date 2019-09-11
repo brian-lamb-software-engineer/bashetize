@@ -1,14 +1,16 @@
 " .vimrc
 "-----------------Load Plugins------------------"
-" https://github.com/tpope/vim-pathogen a vim package manager
-runtime bundle/vim-pathogen/autoload/pathogen.vim
+" https://github.com/tpope/vim-pathogen a vim package manager, that simply
+"  categorizes plugins through the ~/.vim/bundle dir, instead of 
+"  confusingly cluttered in the root dir
+" see plugins in the bundle dir.
+"  -puppet file sytax highlighting
 execute pathogen#infect()
-filetype plugin indent on                   " for pathogen
-
 
 
 "-----------------User-Config------------------"
 syntax on
+filetype plugin indent on                   
 set backspace=indent,eol,start 											"Make backslash behave
 let mapleader = ','																	"Default leader is \
 set laststatus=2
@@ -18,7 +20,7 @@ set laststatus=2
 " number of space characters inserted when tab key is pressed
 "set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set tabstop=2
-set softtabstop=4		                        " spaces in tab when editing
+set softtabstop=2		                        " spaces in tab when editing
 " set use spaces instead of tabs
 set expandtab			                          " tabs are spaces
 " number of space characters inserted for indentation
@@ -41,8 +43,6 @@ set hidden
 set complete=.,w,b,u                                "Current buffer, open windows, loaded buffs, unloaded buffs
 set autowriteall "Write file on buffer Switch
 filetype indent on		                      " load filetype-specific indent files
-so ~/.vim/plugins.vim
-
 
 
 "------------------Visuals-------------------"

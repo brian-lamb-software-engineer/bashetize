@@ -71,7 +71,6 @@ function offerUserColorChoice {
 # first make sure submodules are init, since this is a common mistake, but a needed dependency.  With they arent init, its pretty easy to update --init afterwords, and run the install again safely. 
 git submodule update --init
 
-
 #root check
 #if [ `whoami` != root ]; then
 if [[ $EUID -ne 0 ]]; then
@@ -122,6 +121,7 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
       echo
       echo "
 ... It's recommended you replace the installation files.
+... Anwsering yes to all is basically a reinstall.
 
 ... You will now be prompted to replace each file
      collection from a previous installation where you
@@ -204,10 +204,14 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
     done
 
     while true; do 
-      read -p "... Do you want to remov .vim* for replacement?" yn 2>/dev/tty
+      read -p "... Do you want to remove .vim* for replacement?" yn 2>/dev/tty
       case $yn in
         [Yy]* )
         rm -rf ~/.vim* 
+        #we are now getting this git file manually
+        #https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+        wget -P ~/.vim/autoload https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+
           break;;
          [Nn]* )
           break;;
@@ -215,11 +219,13 @@ if [ -f $BASHETIZE_PATH/.bashrc.custom ]; then
       esac
     done
 
-
     # INSTALL FILES
     rsync -vrlp --no-perms --ignore-existing --exclude ".ssh/cm_socket/.gitignore" $BASHETIZE_PATH/ ~/
-    echo "... The files were installed"
-
+    echo "... The files were installed!  You can exit and relogin for terminal changes to change effect."
+    echo "... Alternatively, you can open a new terminal to test that it is working as expected. "
+    echo "... The default settings should be good, but you can comment any ~/etc/.bash*global includes to fine tune what is loaded if you have any issues with any of the addons." 
+    echo "... Comment the include on .bashrc.custom to stop running bashetize."
+    echo "... Enjoy a sigh of relief, things just got easier on the terminal.  Be sure to look up and try some of the new alias's.  Dont forget to update your ~/.gitconfig username"
 
     if [ ! -f ~/.bashrc ]; then
         touch ~/.bashrc
