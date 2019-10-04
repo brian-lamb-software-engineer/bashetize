@@ -41,8 +41,8 @@ alias fin="find ./* -name "
 alias netstatt="netstat -tulpn"
 
 #nginx is  jailed, need this access to alternate loc
-alias nginx="sudo /srv/http/usr/bin/nginx"
-alias nginxt="sudo /srv/http/usr/bin/nginx -t -c /srv/http/etc/nginx/nginx.conf"
+#alias nginx="sudo /srv/http/usr/bin/nginx"
+#alias nginxt="sudo /srv/http/usr/bin/nginx -t -c /srv/http/etc/nginx/nginx.conf"
 
 #git alias's
 # set your author string, sometime part of an email is enough, and maybe more effective than linux name
