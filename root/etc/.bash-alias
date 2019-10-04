@@ -52,8 +52,8 @@ alias fin="find ./* -name "
 alias netstatt="netstat -tulpn"
 
 #nginx is  jailed, need this access to alternate loc
-alias nginx="/srv/http/usr/bin/nginx"
-alias nginxt="/srv/http/usr/bin/nginx -t -c /srv/http/etc/nginx/nginx.conf"
+#alias nginx="/srv/http/usr/bin/nginx"
+#alias nginxt="/srv/http/usr/bin/nginx -t -c /srv/http/etc/nginx/nginx.conf"
 
 #RESTART HOST
 alias restart="echo 'The system will execute a graceful reboot n 15 seconds.  Press ctrl+c if you want to cancel.'; 
