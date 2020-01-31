@@ -423,16 +423,17 @@ endif
 "End snip from example vimrc file
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"backup/undo/.swp options
 " no tilde files
 "set nobackup
 "set nowritebackup
 " set backup file folder
-set backupdir=~/.vim/tmp,.
-set directory=~/.vim/tmp,.
-set undodir=~/.vim/tmp,.
-"set undodir=./.backup,.,/tmp
-"set backupdir=./.backup,.,/tmp
-"set directory=.,./.backup,/tmp
+" directory controls where .swp files go
+"set directory=~/.vim/tmp,.
+" added double forward to get it to work on rhel
+set backupdir=.backup/,~/.backup/,/tmp//
+set undodir=.undo/,~/.undo/,/tmp//
+
 " project specific .vimrc 
 set exrc
 " disable unsafe project specific .vimrc
