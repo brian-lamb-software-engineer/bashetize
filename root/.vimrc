@@ -9,8 +9,8 @@ execute pathogen#infect()
 
 
 "-----------------User-Config------------------"
-filetype plugin indent on                   " for pathogen
 syntax on
+filetype plugin indent on                   
 set backspace=indent,eol,start 											"Make backslash behave
 let mapleader = ','																	"Default leader is \
 set laststatus=2
@@ -89,6 +89,17 @@ set bg=light
 set wildmenu			                          " visual autocompletet for command menu
 set lazyredraw			                        " redraw only when we need to
 set showmatch			                          " highlight matching paren
+
+"---- vim lightline plugin --------------------"
+"https://github.com/itchyny/lightline.vim
+"wombat
+"jellybeans
+"one
+"landscape
+"solarized dark
+let g:lightline = {
+      \ 'colorscheme': 'landscape',
+            \ }
 
 
 
@@ -431,6 +442,8 @@ set secure
 "g:airline_theme='simple'
 "g:airline_theme='simple'
 
+
+
 " 
 "------------------Notes-and-Tips-------------------"
 " - Help Documentation
@@ -507,3 +520,11 @@ set secure
 " - type '"qp' spit out something from register
 " - :reg to see register items
 " - Create own macro: let @a=""
+
+" a gnu screen copy paste solution
+" https://superuser.com/questions/790903/how-can-i-cause-vim-to-copy-text-to-gnu-screens-clipboard-buffer
+" see ~/etc/.screen_layout for env setting
+if exists("$BUFFERFILE")
+      nnoremap <silent><leader>< :let @" = join(readfile($BUFFERFILE), "\n")<CR>
+      nnoremap <silent><leader>> :call writefile( split(@", "\n"), $BUFFERFILE )<CR>
+endif

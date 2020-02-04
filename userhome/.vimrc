@@ -520,3 +520,11 @@ set secure
 " - type '"qp' spit out something from register
 " - :reg to see register items
 " - Create own macro: let @a=""
+
+" a gnu screen copy paste solution
+" https://superuser.com/questions/790903/how-can-i-cause-vim-to-copy-text-to-gnu-screens-clipboard-buffer
+" see ~/etc/.screen_layout for env setting
+if exists("$BUFFERFILE")
+      nnoremap <silent><leader>< :let @" = join(readfile($BUFFERFILE), "\n")<CR>
+      nnoremap <silent><leader>> :call writefile( split(@", "\n"), $BUFFERFILE )<CR>
+endif
