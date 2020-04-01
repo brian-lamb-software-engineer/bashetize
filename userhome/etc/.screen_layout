@@ -108,7 +108,9 @@ termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 #
 # (for mac allows 256 color, dont forget to set your terminal type to xterm-256 color on your mac)
 #term screen-256color-bce
-term xterm-256color
+# when setting as xterm-.. and not screen-... then when you click the mouse in the terminal you get wierd characters, so needs to be a screen term derivative#
+#term xterm-256color
+term screen-256color
 defbce "on"
 
 ##
