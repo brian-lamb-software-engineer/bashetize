@@ -26,8 +26,19 @@ There are two ways to run this.
 - One way is automatically from `/etc/profile.d` so that from an administrative level, it will auto install for any user that logs on after creating a symlink for `etc/bashetize.sh` in your `/etc/profile.d`
 - The other way is you can run the install.sh script to copy files into your user directory. 
 - Either way you choose, it will not overwrite anything that already exists so you dont need to worry about losing any configuration changes. 
+- This is for linux, so during development since thre is a risk of `CRLF`'s, you can set your git config to use `LF` before commiting: `git config --global core.autocrlf input`.  Its important to not introduce `CRLF`'s into the code base.   
+  - If you see this issue after a fresh checkout, To rescue a file that has `CR`'s on it, where you see an `^M Interpreter` issue, you can clean them up on the fly.  If its a .vim script, it needs `:w ++ff=unix`, you can use `dos2unix` to clean up most other files.  You may need to clean up .screenrc or its layout files manually.  
 
-### Method 1 install to `/etc/profile.d`
+### Method 1 copy files directly to your user dir
+1. As a standard non-root user, clone the package. 
+2. Navigate into the package
+   `$ cd bashetize`
+3. Run the `install.sh` script to copy the files into your home dir. (note the install script runs the submodule update --init automatically now)
+  - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
+   `$ ./install.sh`. 
+   - If you have root privileges, you can safely install as root user: `sudo -i` then `cd bashetize` (in your home dir?) then run the `instal.sh` script (as root).  Since you will be logged in as `root`, it will copy the appropriate files to `/root`.  You can see those files here https://github.com/brian-lamb-software-engineer/bashetize/tree/master/root 
+
+### Method 2 install to `/etc/profile.d`
 1. Clone the package onto your server somewhere in your user dir.
 2. cd into the package
    `$ cd bashetize`
@@ -37,16 +48,7 @@ There are two ways to run this.
    you can leave the permissions to which ever user is the current package owner (dont chown to root or there will be copy issues)
 4. symlink the `bin/bashetize.sh script to `/etc/profile.d`
    `$ sudo ln -s `/usr/local/src/bashetize/bin/bashetize.sh /etc/profile.d`
-On the next login, it will auto install, as long as you dont have a ~/.bashrc.custom file
-
-### Method 2 copy files directly to your user dir
-1. As a standard non-root user, clone the package. 
-2. Navigate into the package
-   `$ cd bashetize`
-3. Run the `install.sh` script to copy the files into your home dir. (note the install script runs the submodule update --init automatically now)
-  - Be sure that you keep the install script inside the git package, and run it from the dir it resides in, since it looks locally(relative path) for its file
-   `$ ./install.sh`. 
-   - If you are installing for the root user, `sudo -i` then `cd bashetize` again to get back to the repo, then run the `instal.sh` script, as the root user, from the location to which you cloned it to.  Since you will be logged in as `root`, it will copy the appropriate files to `/root`
+- On the next login, it will auto install, as long as you dont have a ~/.bashrc.custom file already in place.
 
 ### After installation for a given user
 1. 1. If your not using a system controlled by puppet, or one that doesnt source .bashrc.custom from the .bashrc file, ensure `~/.bashrc.custom` is sourced (in .bashrc normally) by adding the following lines to your .bashrc
