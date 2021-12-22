@@ -17,3 +17,13 @@ if [ ! -z $STY ]; then
     source ~/etc/.bash-screen-x11
   fi
 fi
+
+# HISTORY CONTROL
+# The following code allows a users history to be able to be tracked, during screen sessions, where when you exit the screen, the history is written out, instead of being lost.  It also protects from duplicates.
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
+# After each command, append to the history file and reread it
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
