@@ -28,11 +28,13 @@ THEMEFILE="~/etc/dircolors/dircolors.256dark"
 ##      Choose your dircolor theme here (see ~/etc/dircolors for a few themes to choose from)
 
 # Load dircolors library
-eval "$(gdircolors $THEMEFILE)"
+## commenting this since seems mac may not need gdircolors anymore
+##eval "$(gdircolors $THEMEFILE)"
 # Enable alias ls to GNU's alias's now, (the --color=auto setting), this might not be needed if configured through this, enable this (as gls), alt4ernatively to ls, only if you need to, e.g. if you dont see colors on your dirs.
 
 # Enable alias ls to GNU's alias's now, (the --color=auto setting) (GNU portion is for OSx)
-alias ls="gls --color=auto"
+## commenting this since seems mac may not need gdircolors anymore
+##alias ls="gls --color=auto"
 #alias dir='dir --color=auto'
 #alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
