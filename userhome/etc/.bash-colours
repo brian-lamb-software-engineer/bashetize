@@ -2,7 +2,7 @@
 # .bash-colours
 # a bash preconfiguration for getting terminals confortable
 # For using one of the <t_CO> colors on the foreground (text color), the control 
-#  sequence is \[\e[38;5;<ColorNumber>m\]” where ColorNumber is between 1-<t_CO>.  
+#  sequence is "\[\e[38;5;<ColorNumber>m\]" where ColorNumber is between 1-<t_CO>.  
 # 1-9 are common colors, 16-17,232-235 is invivible on black background,
 # 20-27 are light blues and greens
 # 30-49 are blues greens
@@ -88,40 +88,55 @@ Black="\[\e[0;30m\]"        # Black
 Blue="\[\e[0;34m\]"         # Blue
 Cyan="\[\e[0;36m\]"         # Cyan
 Green="\[\e[0;32m\]"        # Green
-GreenAlt="\[\032[0;40m\]"     # Green
-Purple="\[\e[0;35m\]"       # Purple
+LightGreen="\[\e[1;32m\]"   # Light Green
+#Purple="\[\e[1;35m\]"       # Purple
+Purple="\[\e[38;5;57m\]"
 Red="\[\e[0;31m\]"          # Red
 White="\[\e[0;37m\]"        # White
 Yellow="\[\e[0;33m\]"       # Yellow
 
-# Light Colours
-LightGreen="\[\e[1;32m\]"   # Light Green
+# Extra Colours
+#GreenAlt="\[\e[0;40m\]"   # GreenAlt
 LightPink='\[\e[38;5;218m\]'
 Orange='\[\e[38;5;209m\]'
 OpticYellow='\[\e[38;5;156m\]'
-Pink='\[\e[35;40m'
+Pink='\[\e[1;35;40m\]'
+Magenta='\[\e[35;40m\]'
 Salmon='\[\e[38;5;216m\]'    
 YellowOrange="\[\e[33;40m\]"
 
-# Bold
+# Bright
 BBlack="\[\e[1;30m\]"       # Black
-BRed="\[\e[1;31m\]"         # Red
-BGreen="\[\e[1;32m\]"       # Green
-BYellow="\[\e[1;33m\]"      # Yellow
 BBlue="\[\e[1;34m\]"        # Blue
-BPurple="\[\e[1;35m\]"      # Purple
 BCyan="\[\e[1;36m\]"        # Cyan
+BGreen="\[\e[1;32m\]"       # Green
+BPurple="\[\e[1;35m\]"      # Purple
+BRed="\[\e[1;31m\]"         # Red
 BWhite="\[\e[1;37m\]"       # White
+BYellow="\[\e[1;33m\]"      # Yellow
 
 # Underline
 UBlack="\[\e[4;30m\]"       # Black
-URed="\[\e[4;31m\]"         # Red
-UGreen="\[\e[4;32m\]"       # Green
-UYellow="\[\e[4;33m\]"      # Yellow
 UBlue="\[\e[4;34m\]"        # Blue
-UPurple="\[\e[4;35m\]"      # Purple
 UCyan="\[\e[4;36m\]"        # Cyan
+UGreen="\[\e[4;32m\]"       # Green
+UPurple="\[\e[4;35m\]"      # Purple
+URed="\[\e[4;31m\]"         # Red
 UWhite="\[\e[4;37m\]"       # White
+UYellow="\[\e[4;33m\]"      # Yellow
+
+# Underline Bright
+UBBlack="\[\e[4;1;30m\]"       # Black
+UBBlue="\[\e[4;1;34m\]"        # Blue
+UBCyan="\[\e[4;1;36m\]"        # Cyan
+UBGreen="\[\e[4;1;32m\]"       # Green
+#exmple of underline bright custom color (57)
+UBPurple="\[\e[4;38;5;57m\]"
+UBRed="\[\e[4;1;31m\]"         # Red
+UBWhite="\[\e[4;1;37m\]"       # White
+UBYellow="\[\e[4;1;33m\]"      # Yellow
+UBPink='\[\e[4;1;35;40m\]'
+
 
 # Background
 On_Black="\[\e[40m\]"       # Black
