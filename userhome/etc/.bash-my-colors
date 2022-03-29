@@ -6,90 +6,82 @@
 #########################
 # Adjust your colors here, set different on each server to differ
 # see file etc/.bash_colours as reference
-# e.g. my_under@my_host or through screen (tmux, etc) my_base@my_screen-host  
+#
+# For a host that you use screen on, the bold is the nicer output, hence why 
+# it is used on the screen (else) portion of the following condition. 
+# This helps you notice if you've actually made your last screen yet, by being
+# underlined still. 
+# e.g. MY_PATH_PROMPT_COLOR@MY_HOST_COLOR or through screen (tmux, etc) MY_PATH_PROMPT_COLOR@MY_SCREEN_HOST_COLOR  
+#
+# Always run screen with the -RA switch 'screen -RA', or screen-RAD if your wanting 
+#   to detach from another system first incase you have switched consoles. The -A 
+#   switch is key to keeping any alignment you may have had on the screen splits, 
+#   through a jump, prior to disconnect, when using split vertical screens.  
+#   Note the alias for this is `srad` so if you give the session a name of tab1 for
+#    example you just issue the easily remembered command `srad tab1` for your first
+#    session, or even shorter call it t1, e.g. `srad t1`.  The 2nd session can be 
+#    called `srad t2`, etc...   when you detach, you can rejoin the same way 
+#    (`srad t2` etc..).   
+#
 # By Default, try to use the following as a guideline, customizing from there
-#Personal=Green
-#Dev=Green
-#Stage=Yellow
-#PRE-PROD=Red
-#PROD=BRed
+# Personal=Green
+# Dev=Green
+# Stage=Yellow
+# PRE-PROD=Red
+# PROD=BRed
+# Etc..
 #########################
-#MY_BASE="${IGreen}"
-MY_BASE="${Salmon}"
-MY_BASE_UNDER="${Cyan}"
-MY_AT="${BIWhite}"
-MY_HOST="${BIGreen}"
-MY_SCREEN_HOST="${BIGreen}"
+MY_BASE_USER_COLOR="${LightGreen}"
+MY_AT_COLOR="${YellowOrange}"
+MY_HOST_COLOR="${Purple}"
+MY_SCREEN_HOST_COLOR="${UBPurple}"
+MY_PATH_PROMPT_COLOR="${BBlue}"
 #########################
 
 ##
-# Build PS1
-# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
+# Rebuild the PS1 (customize PS1 and add the colors)
+# Only need to adjust below if you want to restructure the PS1 and its symbols  
 #
-# terminal (non screen colors)
-TERM_PROMPT="${MY_BASE_UNDER}"
+# ResetColor is used at end of each, incase you choose to use a bold, bright, or
+#  underlined color, this will help reset the attribute so that it doesnt persist
 #
-# build PS1s
-CURRENT_LOCATION=" ${MY_BASE}\w"
+# coloring the location prompt
+LOCATION_STRING=" ${MY_PATH_PROMPT_COLOR}\w${ResetColor}"
+# coloring the git branch prompt
 BRANCH='$(__git_ps1 " [%s]")'
-PROMPT="${MY_BASE}\$" 
-TEXT="${ResetColor} "
-#
-# Following two kept here for ease of adjustment (instead of in conditional)
-# Only need to adjust these if you want to change the structure of the TERM_BASE or SCREEN_BASE
-TERM_BASE="${MY_BASE_UNDER}\u${MY_AT}@${MY_HOST}\h"
-SCREEN_BASE="${MY_BASE}\u${MY_AT}@${MY_SCREEN_HOST}\h"
+# coloring the displayed path and cursor prompt (default is $)
+PROMPT="${MY_PATH_PROMPT_COLOR}\$${ResetColor}" 
+# coloring your username as logged in, including roots when rooted
+USER_STRING="${MY_BASE_USER_COLOR}\u${ResetColor}"
+# coloring the symbol between the username and hostname (default is an @)
+AT_STRING="${MY_AT_COLOR}@${ResetColor}"
+# coloring all remaining bash output (after your color prompts)  (default is a reset)
+BASH_OUTPUT_COLOR="${ResetColor} "
 
 
-###
-# No need to adjust anything below normally. 
 #
-# Adjust PS1 below for one of two scenarios below. (Choose A if your not 
-#   sure, choose B for a more proper setup, if your using screen on it) 
-#
-# For a jump host that you use screen in, the bold is the nicer output, hence why 
-# it is used on the screen (else) portion of the following condntion. 
-# This helps you notice if you've actually made your last screen yet, by being
-# underlined still. 
-#
-# To adjust correctly; If this is your end destination then you only need your
-# nice color.  i.e. comment the conditional below in favor of just having
-# one PS1 entry everytime you land here, no matter screened or not.
-#
-# Choose an option below, comment out the other Option's usage altogether.
-#
-# a) Option A, Always use best color
-# no editing needed
-# PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
-
-# b) Option B, Use the non screen color firs,t then when screened use the screen color. 
-# Always run 'screen -RA', or screen-RAD if your wanting to detach it first incase you
-# have switched consoles. The -R switch is key to keeping any alignment you may have
-# had on the screen splits, through a jump, prior to disconnect, when using split 
-# vertical screens 
-#
-if [ -z $STY ]
-then
-    # Default tty prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file. 
-    # Example of using git_parse_branch 
-    # export PS1=$TERM_BASE$CURRENT_LOCATION$IBlack$(git_parse_branch)$PROMPT$TEXT
-    # Example of using __git_ps1
-    export PS1=$TERM_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
-    # an alternate PS1 for this scenario
-    # PS1="{$TERM_PROMPT}{$BRANCH}$White \$"
-else
-    #screen prompt
-    # no color editing needed, instead edit the VARS that represent the colors, at top 
-    #   of this file.
-    export PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$BRANCH$PROMPT$TEXT
-    #export PS1=$SCREEN_BASE$CURRENT_LOCATION$IBlack$(git_parse_branch)$PROMPT$TEXT
+if [ ! -z $STY ]; then
+  # is screen promptm switch to our screen vars instead
+  TERM_BASE=$SCREEN_TERM_BASE
+  HOST_STRING=$SCREEN_HOST_STRING
+  MY_HOST_COLOR=$MY_SCREEN_HOST_COLOR
 fi
+HOST_STRING="${MY_HOST_COLOR}\h${ResetColor}"
+TERM_BASE="${USER_STRING}${AT_STRING}${HOST_STRING}"
+
+# two ways to color the git branch, use `git_parse_branch`, or b `__git_ps1`
+# Using git_parse_branch (dependency, needs git_parse_branch script)
+# export PS1=$TERM_BASE$LOCATION_STRING$IBlack$(git_parse_branch)$PROMPT$BASH_OUTPUT_COLOR
 #
+# Using __git_ps1
+export PS1=$TERM_BASE$LOCATION_STRING$IBlack$BRANCH$PROMPT$BASH_OUTPUT_COLOR
+
+##
+# dircolors customizations
 # For FreeBSD and Mac, dircolors
 # enables colored output for dirs
 export CLICOLOR=1
+#
 # color configuration for dirs
 export LSCOLORS=GxFxCxDxBxegedabagaced
 #
