@@ -9,10 +9,11 @@ execute pathogen#infect()
 
 
 "-----------------User-Config------------------"
-syntax on
-filetype plugin indent on                   
-set backspace=indent,eol,start 											"Make backslash behave
-let mapleader = ','																	"Default leader is \
+syntax on                                           " enables syntax highlighting, also pulles in filetype on
+filetype plugin on                                  " enable loading the plugin files, for specific file types, when a file is edited, its plugin file is loaded
+filetype indent on                                  " when a file is edited, its indent file is loaded (if there is one for its detected filetype)
+
+set backspace=indent,eol,start 											" Make backslash behave
 set laststatus=2
 "for centos5 systems might need the following to correct delete and backspace key usage
 "set term=builtin_xterm
@@ -21,7 +22,7 @@ set laststatus=2
 "set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set tabstop=2
 set softtabstop=2		                        " spaces in tab when editing
-" set use spaces instead of tabs
+" set use spaces instead of tabs (useful for some yaml processors also, prob  want on for yaml)
 set expandtab			                          " tabs are spaces
 " number of space characters inserted for indentation
 set shiftwidth=2
@@ -42,14 +43,34 @@ set pastetoggle=<Leader>p
 set hidden
 set complete=.,w,b,u                                "Current buffer, open windows, loaded buffs, unloaded buffs
 set autowriteall "Write file on buffer Switch
-filetype indent on		                      " load filetype-specific indent files
 
+"backup/undo/.swp options, useful for keeping backups, and eliminating the tilde files also
+" no tilde files
+"set nobackup
+"set nowritebackup
+" set backup file folder
+" directory controls where .swp files go
+"set directory=~/.vim/tmp,.
+" added double forward to get it to work on rhel (also working on ubuntu and  mac
+set backupdir=.backup/,~/.backup/,/tmp//
+set undodir=.undo/,~/.undo/,/tmp//
+
+" project specific .vimrc 
+set exrc
+" disable unsafe project specific .vimrc
+set secure
+
+
+let mapleader = ','																	"Default leader is \
 
 "------------------Visuals-------------------"
 " in vim, use :colorscheme   then tab key to see all available. Some good ones, solarized, antares, desert-256, c64, ibm,  many more. 
 " uncomment your favourite colorscheme here. (note that the color comments are for a .vimrc file, but for e.g. php/javascript files the colors will be slightly different, so you just have to load them to test them)
 "colorscheme default
-"colorscheme badwolf	       " awesome colorscheme for most developer, has some reds in it
+"colorscheme jellybeans      " dark background with purples, greens, blues
+"colorscheme vividchalk     " bright colors, purple comments, almost black background, great scheme.
+"colorscheme landscape      " great colors, med dark grey background, some greens, blues, pinks, etc..
+colorscheme badwolf	      " awesome colorscheme for most developer, has some reds in it
 "colorscheme C64		        " c64 colors (blues)
 "colorscheme basic		      " dark bg with blues
 "colorscheme ibmedit		    " old ibm color, bright blue
@@ -60,26 +81,27 @@ filetype indent on		                      " load filetype-specific indent files
 "colorscheme PaperColor     " when badwolf is enabled with this one, it has a nice contrast, darker bg, lime and aqua text, with some blues
 "colorscheme alduin         " low contrast, khaki colors
 "colorscheme solarized
-colorscheme antares        " nice low contrast with aqua, purples, some brick reds, med greys, darker bg
+"colorscheme antares        " nice low contrast with aqua, purples, some brick reds, med greys, darker bg
 " many many more, you will just have to type in :colorschemes then press the tab key to see them all. 
 
 "set guifont=
-set t_CO=256																	  "Force 256 colors terminal
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-
+"set t_CO=256																	  "Force 256 colors terminal.  the value of t_Co option (&t_Co)  is what vim considers to be the max# of colors
+"                                                 that can be displayed bya host terminal.  Its defined according to the entry corresponding to $TERM in terminfo
+" using term "screen-256color in favor of t_Co, so that vim gets its correct display, since been having problems with that. This value is supposed to go
+" on .screenrc, so put it there.                                       
+" term "screen-256color (set this on .screenrc, or in our case in the .screen_layout instead, if your using that.           
+"
+set display=lastline                            "adding lastline entry becausea when opening screen on anv ubuntu the curson would not push/wrap the lines correctly,
+"                                                 hence code could not display as your scrolling with cursor
 "set macligatures                                " Pretty when available
 "set guioptions-=e                               "We dont want gui tabs
-
 set guioptions-=l                                "Remove scrollbars
 set guioptions-=L                                "Remove splits scrollbars
 set guioptions-=r
 set guioptions-=R
 
-set bg=light
-"set bg=dark
+"set bg=light
+set bg=dark
 "fake a custom left padding for each window
 "hi LineNr ctermbg=$bg                            "Color behind numbers
 "set foldcolumn=2
@@ -89,18 +111,6 @@ set bg=light
 set wildmenu			                          " visual autocompletet for command menu
 set lazyredraw			                        " redraw only when we need to
 set showmatch			                          " highlight matching paren
-
-"---- vim lightline plugin --------------------"
-"https://github.com/itchyny/lightline.vim
-"wombat
-"jellybeans
-"one
-"landscape
-"solarized dark
-let g:lightline = {
-      \ 'colorscheme': 'landscape',
-            \ }
-
 
 
 "------------------Split Management-------------------"
@@ -147,11 +157,45 @@ nmap <Leader>f :tag<space>
 " Lists buffers and types :b for you in advance
 nnoremap gb :ls<cr>:b<space>
 nmap <Leader>cl iconsole.log()
+
+nmap <Leader>lr :e app/Http/routes.php<cr>
+nmap <Leader>lm :!php artisan make:
+nmap <Leader><Leader>c :CtrlP<cr>app/Http/Controllers/
+nmap <Leader><Leader>m :CtrlP<cr>app/
+nmap <Leader><Leader>v :CtrlP<cr>resources/views/
+nmap <Leader>rc :e web/js/rcrit.js<cr>
+nmap <Leader>ra :e web/js/rafter.js<cr>
+nmap <Leader>pl :! php -l %<cr>
+
+"let @d="Adebug();hi''il"
+
 " bl edits
 nnoremap <space> za			                    " space open/closes folds
 nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
 nnoremap <leader>s :mksession<CR>	          " automatically close with a session instead.  Then reopen vim with vim -S to leverage this
 nnoremap <leader>a :Ag	" open ag.vim silver searcher, commmand line tool, searches source code in a project, this adds to vim without leaving (here mapped to ,a)
+
+
+
+"------------------Auto-Commands-------------------"
+"Automatically source the Vimrc file on save.
+augroup autosourcing
+	autocmd!
+	autocmd BufWritePost .vimrc source %
+augroup END
+"Automatically create directory on save
+function! s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+endfunction
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
 
 
 
@@ -178,188 +222,6 @@ augroup resCur
 augroup END
 
 
-
-"------------------Plugin Settings-------------------"
-"/
-"/ NERDTree
-"/
-let g:NERDTreeHijackNetrw=0
-
-"/
-"/ CtrlP
-"/
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  "set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast
-	let g:ctrlp_user_command = 'ag %s -l --nocolor
-      \ --ignore node_modules 
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --skip-vcs-ignores
-      \ -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-
-endif
-
-let g:ctrlp_match_window = 'top,order:tbb,min:1,max:30,results:30'
-"let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_working_path_mode = 'raw'
-
-"/
-"/ Ag
-"/
-let g:ag_working_path_mode="r"
-let g:ag_prg="ag 
-      \ --ignore node_modules 
-      \ --ignore 2016_03_25
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore storage
-      \ --skip-vcs-ignores
-      \ -p .agignore
-      \ --vimgrep"
-
-"/
-"/ Greplace.vim
-"/
-set grepprg=ag                                        "Use Ag for search
-let g:grep_cmd_opts = '--line-numbers --noheading'
-
-"/
-"/ arnaud-lb/vim-php-namespace
-"/
-
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-
-autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
-
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction
-
-autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
-
-" Sort exiting use statements
-autocmd FileType php inoremap <Leader>s <Esc>:call PhpSortUse()<CR>
-autocmd FileType php noremap <Leader>s :call PhpSortUse()<CR>
-" Sort PHP use statements
-"http://stackoverflow.com/questions/11531073/how-do-you-sort-a-range-of-lines-by-length
-vmap <Leader>su ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-" }'<cr>
-
-"/
-"/ vim-php-cs-fixer.vim
-"/
-" make the path work
-let g:php_cs_fixer_path = "~/.composer/vendor/bin/php-cs-fixer"
-" Set level to psr2. 
-let g:php_cs_fixer_level = "psr2"
-" disable PSR-0.
-let g:php_cs_fixer_fixers_list = "-psr0"
-" don't add ley mappings.
-let g:php_cs_fixer_enable_default_mapping = 0
-"nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
-nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
-"nmap <leader>pf :!php-cs-fixer fix "%" --level=psr2
-let g:php_cs_fixer_level = "psr2"              " which level ?
-let g:php_cs_fixer_config = "default"             " configuration
-"let g:php_cs_fixer_config_file = '.php_cs'       " configuration file
-let g:php_cs_fixer_php_path = "php"               " Path to PHP
-" If you want to define specific fixers:
-"let g:php_cs_fixer_fixers_list = "linefeed,short_tag,indentation"
-let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
-let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
-let g:php_cs_fixer_verbose = 0                    " Return the output of command if 1, else an inline information.
-
-"/
-"/ PHP Documentor for VIM (pdv)
-"/
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <Leader>d :call pdv#DocumentWithSnip()<CR>
-
-"/
-"/ Ultisnips
-"/
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-"/
-"/ Vim blade
-"/
-autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
-
-"/
-"/ Taglist
-"/
-let Tlist_Use_Right_Window=1
-let Tlist_Inc_Winwidth=0
-
-
-
-"------------------Auto-Commands-------------------"
-nmap <Leader>lr :e app/Http/routes.php<cr>
-nmap <Leader>lm :!php artisan make:
-nmap <Leader><Leader>c :CtrlP<cr>app/Http/Controllers/
-nmap <Leader><Leader>m :CtrlP<cr>app/
-nmap <Leader><Leader>v :CtrlP<cr>resources/views/
-nmap <Leader>rc :e web/js/rcrit.js<cr>
-nmap <Leader>ra :e web/js/rafter.js<cr>
-nmap <Leader>pl :! php -l %<cr>
-let @d="Adebug();hi''il"
-
-
-
-"------------------Auto-Commands-------------------"
-"Automatically source the Vimrc file on save.
-augroup autosourcing
-	autocmd!
-	autocmd BufWritePost .vimrc source %
-augroup END
-"Automatically create directory on save
-function! s:MkNonExDir(file, buf)
-    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-        let dir=fnamemodify(a:file, ':h')
-        if !isdirectory(dir)
-            call mkdir(dir, 'p')
-        endif
-    endif
-endfunction
-augroup BWCCreateDir
-    autocmd!
-    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-augroup END
-" for vim-instant-markdown node plugin
-" npm -g install instant-markdown-d
-" Fix markdown for plugin
-"augroup autofixmd
-"autocmd!
-"	autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-"augroup END
-let g:instant_markdown_autostart = 0
-" let g:instant_markdown_slow = 1
-"	then you have to :InstantMarkdownPreview
-" json syntax
-"augroup autojsonsyntax
-"	autocmd!
-"	autocmd BufNewFile,BufRead *.json set ft=javascript
-"augroup END
-"source $VIMRUNTIME/vimrc_example.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " /Applications/MacVim.app/Contents/Resources/vim/runtime/vimrc_example.vim
@@ -423,24 +285,206 @@ endif
 "End snip from example vimrc file
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"backup/undo/.swp options
-" no tilde files
-"set nobackup
-"set nowritebackup
-" set backup file folder
-" directory controls where .swp files go
-"set directory=~/.vim/tmp,.
-" added double forward to get it to work on rhel
-set backupdir=.backup/,~/.backup/,/tmp//
-set undodir=.undo/,~/.undo/,/tmp//
 
-" project specific .vimrc 
-set exrc
-" disable unsafe project specific .vimrc
-set secure
+"/
+"/ a gnu screen copy paste solution
+"/
+" https://superuser.com/questions/790903/how-can-i-cause-vim-to-copy-text-to-gnu-screens-clipboard-buffer
+" see ~/etc/.screen_layout for env setting
+if exists("$BUFFERFILE")
+      nnoremap <silent><leader>< :let @" = join(readfile($BUFFERFILE), "\n")<CR>
+      nnoremap <silent><leader>> :call writefile( split(@", "\n"), $BUFFERFILE )<CR>
+endif
+
+
+
+"------------ VIM Plugin Settings --------------"
+"---- vim lightline plugin --------------------"
+"/ customizes the color of the status bar
+"https://github.com/itchyny/lightline.vim
+"wombat
+"jellybeans
+"one
+"landscape
+"solarized dark
+"choose your light line colorscheme below
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ }
+
+"/
+"/ CtrlP
+"/
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  "set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast
+	let g:ctrlp_user_command = 'ag %s -l --nocolor
+      \ --ignore node_modules 
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --skip-vcs-ignores
+      \ -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+let g:ctrlp_match_window = 'top,order:tbb,min:1,max:30,results:30'
+"let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_working_path_mode = 'raw'
+
+
+"/
+"/ Ag
+"/ ag is the_silver_searcher, it needs ag binary installed from your repo, or
+"/  install from the the vim repo is fine.  then you can add the ag plugin. 
+"/  a comment on ag plugin site says its deprecated to use ack.vim instead
+"/
+"let g:ag_working_path_mode="r"
+"let g:ag_prg="ag 
+"      \ --ignore node_modules 
+"      \ --ignore 2016_03_25
+"      \ --ignore .git
+"      \ --ignore .svn
+"      \ --ignore .hg
+"      \ --ignore .DS_Store
+"      \ --ignore storage
+"      \ --skip-vcs-ignores
+"      \ -p .agignore
+"      \ --vimgrep"
+
+
+"/
+"/ Greplace.vim plugin
+"/ The Global Replace plugin allows you to search and replace a pattern across
+"/  multiple files and buffers.
+"/
+"
+"set grepprg=ag                                        "Use Ag for search
+"let g:grep_cmd_opts = '--line-numbers --noheading'
+
+
+"/
+"/ arnaud-lb/vim-php-namespace plugin
+"/ inserts "use" statements automatically
+"/
+"
+"function! IPhpInsertUse()
+"    call PhpInsertUse()
+"    call feedkeys('a',  'n')
+"endfunction
+"
+"autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+"autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+"
+"function! IPhpExpandClass()
+"    call PhpExpandClass()
+"    call feedkeys('a', 'n')
+"endfunction
+"
+"autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
+"autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
+"
+"" Sort exiting use statements
+"autocmd FileType php inoremap <Leader>s <Esc>:call PhpSortUse()<CR>
+"autocmd FileType php noremap <Leader>s :call PhpSortUse()<CR>
+"" Sort PHP use statements
+""http://stackoverflow.com/questions/11531073/how-do-you-sort-a-range-of-lines-by-length
+"vmap <Leader>su ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-" }'<cr>
+
+
+"/
+"/ vim-php-cs-fixer.vim plugin
+"/ This plugin will execute the php-cs-fixer command on the directory or file
+"  (depends on which command you call).
+"/
+"" make the path work
+"let g:php_cs_fixer_path = "~/.composer/vendor/bin/php-cs-fixer"
+"" Set level to psr2. 
+"let g:php_cs_fixer_level = "psr2"
+"" disable PSR-0.
+"let g:php_cs_fixer_fixers_list = "-psr0"
+"" don't add ley mappings.
+"let g:php_cs_fixer_enable_default_mapping = 0
+""nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
+"nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
+""nmap <leader>pf :!php-cs-fixer fix "%" --level=psr2
+"let g:php_cs_fixer_level = "psr2"              " which level ?
+"let g:php_cs_fixer_config = "default"             " configuration
+""let g:php_cs_fixer_config_file = '.php_cs'       " configuration file
+"let g:php_cs_fixer_php_path = "php"               " Path to PHP
+"" If you want to define specific fixers:
+""let g:php_cs_fixer_fixers_list = "linefeed,short_tag,indentation"
+"let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
+"let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
+"let g:php_cs_fixer_verbose = 0                    " Return the output of command if 1, else an inline information.
+
+
+"/
+"/ PHP Documentor for VIM (pdv) plugin
+"/ integrates with utilisnips also
+"/ vmustace is a required plugin for PDV to work
+"/
+"let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+"nnoremap <Leader>d :call pdv#DocumentWithSnip()<CR>
+
+
+"/
+"/ Ultisnips plugin
+"/ easily add snippets with this plugin
+"/
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+
+"/
+"/ Vim blade plugin
+"/ blade template syntax highlighting (for laravel 4+)
+"/
+"autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade " Fix blade auto-indent
+
+
+"/
+"/ Taglist plugin
+"/ a source code browser provides an overview of the structure of source code files, allows for efficient browsing 
+"/
+"let Tlist_Use_Right_Window=1
+"let Tlist_Inc_Winwidth=0
+
+
+"/ 
+"/ vim-instant-markdown node plugin
+"/ needs node installed (npm)
+"/ also needs xdf-itils, curl
+"/
+"" npm -g install instant-markdown-d
+"" Fix markdown for plugin
+""augroup autofixmd
+""autocmd!
+""	autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+""augroup END
+"let g:instant_markdown_autostart = 0
+"" let g:instant_markdown_slow = 1
+""	then you have to :InstantMarkdownPreview
+"" json syntax
+""augroup autojsonsyntax
+""	autocmd!
+""	autocmd BufNewFile,BufRead *.json set ft=javascript
+""augroup END
+""source $VIMRUNTIME/vimrc_example.vim
+
+
+"/
+"/ Airline theme plugin
+"/
 " vim-airline - airline theme
 "g:airline_theme='simple'
 "g:airline_theme='simple'
+
 
 
 
@@ -520,11 +564,3 @@ set secure
 " - type '"qp' spit out something from register
 " - :reg to see register items
 " - Create own macro: let @a=""
-
-" a gnu screen copy paste solution
-" https://superuser.com/questions/790903/how-can-i-cause-vim-to-copy-text-to-gnu-screens-clipboard-buffer
-" see ~/etc/.screen_layout for env setting
-if exists("$BUFFERFILE")
-      nnoremap <silent><leader>< :let @" = join(readfile($BUFFERFILE), "\n")<CR>
-      nnoremap <silent><leader>> :call writefile( split(@", "\n"), $BUFFERFILE )<CR>
-endif
