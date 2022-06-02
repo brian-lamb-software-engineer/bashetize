@@ -67,8 +67,8 @@ let mapleader = ','																	"Default leader is \
 " in vim, use :colorscheme   then tab key to see all available. Some good ones, solarized, antares, desert-256, c64, ibm,  many more. 
 " uncomment your favourite colorscheme here. (note that the color comments are for a .vimrc file, but for e.g. php/javascript files the colors will be slightly different, so you just have to load them to test them)
 "colorscheme default
-"colorscheme jellybeans      " dark background with purples, greens, blues
-colorscheme vividchalk     " bright colors, purple comments, almost black background, great scheme.
+colorscheme jellybeans      " dark background with purples, greens, blues
+"colorscheme vividchalk     " bright colors, purple comments, almost black background, great scheme.
 "colorscheme landscape      " great colors, med dark grey background, some greens, blues, pinks, etc..
 "colorscheme badwolf	      " awesome colorscheme for most developer, has some reds in it
 "colorscheme C64		        " c64 colors (blues)
@@ -335,6 +335,109 @@ endif
 let g:ctrlp_match_window = 'top,order:tbb,min:1,max:30,results:30'
 "let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_working_path_mode = 'raw'
+
+"/
+"/ Ansible-vim (by pearofducks)
+"/
+"Ansible syntax highlighter
+"https://github.com/pearofducks/ansible-vim
+
+" g:ansible_unindent_after_newline
+"let g:ansible_unindent_after_newline = 1
+" When this variable is set, indentation will completely reset (unindent to
+"  column 0) after two newlines in insert-mode. The normal behavior of YAML is to
+"  always keep the previous indentation, even across multiple newlines with no
+"  content.
+
+
+"g:ansible_attribute_highlight
+let g:ansible_attribute_highlight = "ob"
+" Ansible modules use a key=value format for specifying module-attributes in
+"  playbooks. This highlights those as specified. This highlight option is also
+"  used when highlighting key/value pairs in hosts files.
+" Available flags (bold are defaults):
+" a: highlight all instances of key=
+" o: highlight only instances of key= found on newlines
+" d: dim the instances of key= found
+" b: brighten the instances of key= found
+" n: turn this highlight off completely
+
+
+"g:ansible_name_highlight
+let g:ansible_name_highlight = 'b'
+" Ansible modules commonly start with a name: key for self-documentation of
+"  playbooks. This option enables/changes highlight of this.
+" Available flags (this feature is off by default):
+" d: dim the instances of name: found
+" b: brighten the instances of name: found
+" highlight  additional keywords
+" Highlight the following additional keywords: become become_exe become_flags become_method become_user become_pass prompt_l10n debugger always_run check_mode diff no_log args tags force_handlers vars vars_files vars_prompt delegate_facts delegate_to any_errors_fatal ignore_errors ignore_unreachable max_fail_percentage connection hosts port remote_user module_defaults environment fact_path gather_facts gather_subset gather_timeout async poll throttle timeout order run_once serial strategy.
+" By default we only highlight: include include_role include_tasks include_vars import_role import_playbook import_tasks when changed_when failed_when block rescue always notify listen register action local_action post_tasks pre_tasks tasks handlers roles collections and loop keywords with_.+, loop, loop_control, until, retries, delay.
+"/Note: This option is enabled when set, and disabled when not set.
+"let g:ansible_extra_keywords_highlight = 1
+
+"g:ansible_extra_keywords_highlight
+let g:ansible_extra_keywords_highlight = 1
+"Note: This option is enabled when set, and disabled when not set.
+" Highlight the following additional keywords: become become_exe become_flags
+"  become_method become_user become_pass prompt_l10n debugger always_run
+"  check_mode diff no_log args tags force_handlers vars vars_files vars_prompt
+"  delegate_facts delegate_to any_errors_fatal ignore_errors ignore_unreachable
+"  max_fail_percentage connection hosts port remote_user module_defaults
+"  environment fact_path gather_facts gather_subset gather_timeout async poll
+"  throttle timeout order run_once serial strategy.
+" By default we only highlight: include include_role include_tasks include_vars
+"  import_role import_playbook import_tasks when changed_when failed_when block
+"  rescue always notify listen register action local_action post_tasks pre_tasks
+"  tasks handlers roles collections and loop keywords with_.+, loop,
+"  loop_control, until, retries, delay.
+
+"g:ansible_extra_keywords_highlight_group
+let g:ansible_extra_keywords_highlight_group = 'Statement'
+"Accepts any syntax group name from :help E669 - e.g. Comment, Constant,
+" Identifier
+"Note: Defaults to 'Structure' when not set.
+
+"g:ansible_normal_keywords_highlight
+let g:ansible_normal_keywords_highlight = 'Constant'
+" Accepts any syntax group name from :help E669 - e.g. Comment, Constant,
+"  Identifier
+" Note: Defaults to 'Statement' when not set.
+" This option change the highlight of the following common keywords: include
+"  include_role include_tasks include_vars import_role import_playbook
+"  import_tasks when changed_when failed_when block rescue always notify listen
+"  register action local_action post_tasks pre_tasks tasks handlers roles
+"  collections.
+
+
+"g:ansible_loop_keywords_highlight
+let g:ansible_loop_keywords_highlight = 'Constant'
+" Accepts any syntax group-name from :help E669 - e.g. Comment, Constant,
+"  Identifier
+" Note: Defaults to 'Statement' when not set.
+" This option changes the highlight of all with_.+, loop, loop_control, until,
+"  retries and delay keywords.
+
+
+" g:ansible_template_syntaxes
+let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }
+" Accepts a dictionary in the form of 'regex-for-file': 'filetype'.
+" 
+" regex-for-file will receive the full filepath, so directory matching can be
+"  done.
+" filetype is the root filetype to be applied, jinja2 will be automatically
+"  appended
+" All files ending in *.j2 that aren't matched will simply get the jinja2
+"  filetype.
+ 
+"g:ansible_ftdetect_filename_regex
+"let g:ansible_ftdetect_filename_regex =
+" '\v(playbook|site|main|local|requirements)\.ya?ml$'
+" Accepts a regex string that is used to match the filename to determine if the
+"  file should use the Ansible filetype
+" Can be used to avoid clashes with other files that are named the same - e.g.
+"  main.yaml used in github workflows by removing main from the regex
+
 
 
 "/
