@@ -44,3 +44,6 @@
 	path = userhome/.vim/bundle/vim-colors-pencil
 	url = https://github.com/reedes/vim-colors-pencil.git
 
+[submodule "userhome/.vim/bundle/ansible-vim"]
+	path = userhome/.vim/bundle/ansible-vim
+	url = https://github.com/pearofducks/ansible-vim
