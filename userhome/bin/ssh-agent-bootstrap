@@ -1,5 +1,5 @@
 #!/bin/bash
-# ssh-agent
+# ssh-agent-bootstrap
 # This script enables ssh agent so you can use ssh-add after to add your identitys. 
 # resource url for some help info https://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-a-password-prompt
 

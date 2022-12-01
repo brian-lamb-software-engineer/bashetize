@@ -14,7 +14,7 @@ fi
 #. ~/bin/.git_push_scripts
 
 # lets load our ssh agent, to make things easier on our logging in to all the services
-. ~/bin/ssh-agent
+. ~/bin/ssh-agent-bootstrap
 
 #if screen
 if [ ! -z $STY ]; then
