@@ -8,27 +8,30 @@ if [ -z $STY ]; then
   echo ".. starting ssh agent."
   echo ".. this script is set up, with security in mind, where passphrases will be needed to be reset, after each reboot"
   echo ".. you are using passphrases right?"
+  # check if exists and is a socket file
   if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+      # it may just be dead so remove it just incase
+      rm ~/.ssh/ssh_auth_sock
       eval `ssh-agent`
-    #moved these two lines her, as i felt they were better only ran if hasnt already been added, duh..
+    # only run if hasnt already been added
     ssh-add -l > /dev/null || ssh-add
     echo ".. default key added, you can now ssh-add ~/.ssh/your-other-keys_rsa anytime"
      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
   fi
   export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-    # initial attempts, for the record
+  # initial attempts, for the record
   #if [ -z "$SSH_AUTH_SOCK" ]; then
   #    eval `ssh-agent -s`  
   #    ssh-add
   #fi
 
-  #you will not have your agent pid, which means it will be now running
+  #you will now have your agent pid, which means it will be now running
   #echo ".. if pid above, then you may now run 'ssh-add ~/.ssh/yourkey.pub' for any key you need."
   #read -p "The first one will be attempted next.  If it asks you for a pass" 
 
   # now your safe to add any ids you like, the first one this script will add for you
   #use ssh-add -K when on mac, so it can add passphrase to keychain
-  #ssh-add ~/.ssh/id_rsa.pub
+  #ssh-add ~/.ssh/other-ids_rsa.pub
 
   # Upon logout, we want this process killed, so i prefer to do that here, instead of the alternate means. 
   # Alternately, create a .bash_logout script, with the following code on it. 
