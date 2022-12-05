@@ -6,8 +6,15 @@
 #case "$_" in # wouldnt load bash configs for normal user  this way
 case "$-" in
   *i*) # shell IS INTERACTIVE SHELL
+
+    # unset the env var for logging the usr out automatically
+    #if [ ! -z "$TMOUT" ]; then
+    #  env -u TMOUT bash --init-file ~/.bash_profile
+    #fi
+
     # To bashitize, include the follwing two global files in ~/etc
     # Add your customizations to one of the above two files, or their children, to keep things clean.
+
     # load bashrc customization file
     if [ -f ~/etc/.bash-rc-global ]; then
       . ~/etc/.bash-rc-global
