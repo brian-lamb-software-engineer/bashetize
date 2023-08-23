@@ -29,7 +29,7 @@ There are two ways to run this.
 - This is for linux, so during development since thre is a risk of `CRLF`'s, you can set your git config to use `LF` before commiting: `git config --global core.autocrlf input`.  Its important to not introduce `CRLF`'s into the code base.   
   - If you see this issue after a fresh checkout, To rescue a file that has `CR`'s on it, where you see an `^M Interpreter` issue, you can clean them up on the fly.  If its a .vim script, it needs `:w ++ff=unix`, you can use `dos2unix` to clean up most other files.  You may need to clean up .screenrc or its layout files manually.  
 
-### Method 1 copy files directly to your user dir
+### Method 1 clone then install to user dir using script (recommended)
 1. As a standard non-root user, clone the package. 
 2. Navigate into the package
    `$ cd bashetize`
@@ -38,7 +38,7 @@ There are two ways to run this.
    `$ ./install.sh`. 
    - If you have root privileges, you can safely install as root user: `sudo -i` then `cd bashetize` (in your home dir?) then run the `instal.sh` script (as root).  Since you will be logged in as `root`, it will copy the appropriate files to `/root`.  You can see those files here https://github.com/brian-lamb-software-engineer/bashetize/tree/master/root 
 
-### Method 2 install to `/etc/profile.d`
+### Method 2 clone then manually install to `/etc/profile.d`
 1. Clone the package onto your server somewhere in your user dir.
 2. cd into the package
    `$ cd bashetize`
@@ -51,14 +51,20 @@ There are two ways to run this.
 - On the next login, it will auto install, as long as you dont have a ~/.bashrc.custom file already in place.
 
 ### After installation for a given user
-1. 1. If your not using a system controlled by puppet, or one that doesnt source .bashrc.custom from the .bashrc file, ensure `~/.bashrc.custom` is sourced (in .bashrc normally) by adding the following lines to your .bashrc
+1. 1. If your not using a system controlled by puppet, or one that doesnt source .bashrc.custom from the .bashrc file, ensure `~/.bashrc.custom` is sourced (in .bashrc normally) by adding the following lines to your .bashrc or .profile
    ```
    if [ -f ~/.bashrc.custom ]; then
        . ~/.bashrc.custom
    fi
    ```
+  - Install is now complete.  Continue configuring below. 
 2. update your username and email on `~/.gitconfig` 
   - Optional; update your colors; open `~/etc/.bash-my-colors` and change the first 4-6 lines to your desired colors.  E.g. change the word `BIGreen` to `BICyan`, etc..  Refer to `~/etc/.bash-colours` to see the common names of which colors are available. 
+
+3. Its ready to run, you can exit and log back into your user, or manally source .bashrc_custom.  
+-  If you have any problems with ssh-agent when you first start using the script, you can comment the line `. ~/etc/ssh-agent-bootstrap` on `.bash-rc-global`
+- If you have any problmes with .git prompt, you can comment the line `. ~/etc/.git-prompt` on `.bash-profile-global`
+- if you see a bunch of color characters instead of a proper terminal command, or are having unexpected results, make sure you are running BASH.  If your not sure, you can enter BASH by typing in `bash` in your terminal first. If this resolves it then you need to add /bin/bash as  yaur shell on /etc/pwd, you may have it set to /bin/sh or something else. 
 
 ## Notes
 - some of the more useful aliases
