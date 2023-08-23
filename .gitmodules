@@ -47,3 +47,7 @@
 [submodule "userhome/.vim/bundle/ansible-vim"]
 	path = userhome/.vim/bundle/ansible-vim
 	url = https://github.com/pearofducks/ansible-vim
+
+[submodule "userhome/.vim/bundle/vim-ps1"]
+	path = userhome/.vim/bundle/vim-ps1
+	url = https://github.com/PProvost/vim-ps1.git
