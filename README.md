@@ -14,6 +14,7 @@
 - git
 - rsync
 - wget
+- ncurses-compat-libs
 
 Install the above binaries first, e.g. `dnf install vim git rsync wget`
  
