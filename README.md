@@ -15,6 +15,7 @@
 - git
 - rsync
 - wget
+
 Install the above binaries first, e.g. `dnf install vim git rsync wget`
  
 ## Includes
