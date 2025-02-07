@@ -1,4 +1,8 @@
 
 #vim files
 *.swp
+*.swo
 *~
+
+#other files
+.DS_Store
