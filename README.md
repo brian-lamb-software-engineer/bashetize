@@ -87,6 +87,25 @@ There are two ways to run this.
   - To use the `gnu screen` layout, you will need a later version of screen, e.g. `4.06.02`. Compile the binary using `make`, place into your bin dir, and add an alias, or `make` then install the latest version of it onto your stack as `sudo`. The new custom config will work right away, use `screen -RA` to launch, and `ctrl + a d` to detach.
   - If you opt for the global `profile.d` installation option, the careful thing to do, as with any new `profile.d` script, is to restart the server after the file (or symlink) is in place, to ensure nothing behind the scenes (e.g. `nologin`, or non interactive) triggers it (`bashetize.sh` has been updated to check that its interactive to prevent this.), and that all your services have started correctly (`sudo chkconfig`, `sudo systemctl status -a`, `sudo journalctl -xn`, etc..).  You can also watch your system logs, e.g. `sudo tail -n 100 /var/log/messages` (The script uses `logger` to log some info there).  
 - For other distros, you will know if it runs or not by testing the `install.sh` script on your distro.  If you choose to take the lesser recommended automated method of installation (`profile.d` method) you will want to make sure you have logger installed `which logger`, and verify the path vars, etc.. 
+- if you want to add repos to your vim, using pathogen which is an auto load, then do the following; After bashetize is installed, you can cd to ~/.vim/bundle then just clone whatever vim plugins you want, e.g. 
+```
+# TypeScript syntax highlighting
+git clone https://github.com/leafgarland/typescript-vim.git
+
+# JavaScript enhancements (needed for TypeScript)
+git clone https://github.com/pangloss/vim-javascript.git
+
+# Better JavaScript highlighting (optional)
+git clone https://github.com/othree/yajs.vim.git
+
+# Best TypeScript highlighting (optional, but recommended)
+git clone https://github.com/HerringtonDarkholme/yats.vim.git
+```
+  After that is complete the plugin should be auto enabled, since the default .vimrc already has `execute pathogen#infect()`, and ```
+syntax on
+filetype plugin indent on
+```.
+
 
 ## known issues
 - When the directory `.ssh/cm_socket`, specified on `.ssh/config`, is copied, if the owner is other than the one who runs the copy command, `rsync` complains that it cand read into the directory.  This is acceptable because its empty anyway, and its only that dir which is needed, which does successfuly copy anyway. This happends because the `cm_socket` dir needs to be set to `700`, so for now it is `700`.  At a later time the `cm_socket` can be set to `755`, or `775`, then the `rsync` command, or another command issued, can be adjusted to set it to `700` after the copy.   
