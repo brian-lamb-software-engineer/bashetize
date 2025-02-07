@@ -46,7 +46,7 @@ layout new one
 
 layout new two-v
 split -v
-select 1
+select one
 
 layout new two-h
 split
