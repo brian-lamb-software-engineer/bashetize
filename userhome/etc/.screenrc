@@ -2,9 +2,9 @@
 # screen layout
 #
 #first source the personal default layout
-source ~/etc/.screen_layout
+source $HOME/etc/.screen_layout
 #
 # now select a default layout to source by uncommenting either indy or multi,
 # and leaving the other commented
-source ~/etc/.screen_indy
-#source ~/etc/.screen_multi
+source $HOME/etc/.screen_indy
+#source $HOME/etc/.screen_multi

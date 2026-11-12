@@ -1,7 +1,7 @@
 ##
 # .screen_2col_direct
 # for generic multi split screen use
-# screen -c ~/etc/.screen_2col_direct
+# screen -c $HOME/etc/.screen_2col_direct
 # C-a d to detach
 # then screen -RA to reattach with splits correctly
 # 
@@ -13,7 +13,7 @@
 #  screen -d -m -S myshell -t tab0 
 
 #since is is intended to be ran directly, il source the layout here instead of on a _direct file
-source ~/etc/.screen_layout
+source $HOME/etc/.screen_layout
 
 # pane 1 - local bash 
 	screen -f -A -a -t 2col-l 1

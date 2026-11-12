@@ -6,6 +6,6 @@
 #
 #
 # source our two needed files, and were off
-source ~/etc/.screen_layout
-source ~/etc/.screen_multi
+source $HOME/etc/.screen_layout
+source $HOME/etc/.screen_multi
 
