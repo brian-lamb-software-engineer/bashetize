@@ -5,6 +5,8 @@
 # Author blamb
 #
 #treat screen as bash shell, so that correct colors load(rhel7)
+# there has been issues with using defshell -bash, which causes 
+#   it to gain a login, use it without to avoid that#
 defshell -bash
 # VERT SPLIT ENABLING - NOTES
 # WHEN using splits, to AVOID LOSING your custom splits and pane sizing on detachment, it is necessary to 
