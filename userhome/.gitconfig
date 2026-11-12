@@ -49,4 +49,14 @@
 	sslverify = false
 [user]
 	name = Your Name Here
-	email = youremail@domain.com
+  # personal email here (or company email if not using below conditions)
+  email = myemail@personal.com
+
+# company email goes on the included file below based on condition, 
+#   if you commit to multiple repos and dont want to use your company
+#   email on anythign except company property
+[includeIf "hasconfig:remote.*.url:https://github.com/company-keyword*/**"]
+  path = .gitconfig-company
+
+[includeIf "hasconfig:remote.*.url:git@github.com:company-keyword*/**"]
+  path = .gitconfig-company
